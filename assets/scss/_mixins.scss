@@ -1,0 +1,51 @@
+// Set basic mask config
+@mixin masking($mask-url, $size: cover, $position: center) {
+    mask: url($mask-url);
+
+    mask: {
+        size: $size;
+        position: $position;
+    }
+
+    -webkit-mask: url($mask-url);
+
+    -webkit-mask: {
+        size: $size;
+        position: $position;
+    }
+}
+
+// Overlays to decorate sections
+@mixin overlay-base {
+    content: "";
+    height: 64px;
+    width: 100%;
+    position: absolute;
+    display: block;
+}
+
+// Overlay on top
+@mixin overlay-top ($color, $inclination: -2deg) {
+    &::before {
+        @include overlay-base;
+        background-image: linear-gradient($inclination, $color 49%, rgba(0, 0, 0, 0) 50%);
+        top: -64px;
+    }
+}
+
+// Overlay on bottom
+@mixin overlay-bottom ($color, $inclination: -2deg) {
+    &::after {
+        @include overlay-base;
+        background-image: linear-gradient($inclination, rgba(0,0,0,0) 49% , $color 50%);
+        bottom: -64px;
+    }
+}
+
+// Highlight icons links on navbar
+@mixin highlight-icon-link ($highlight) {
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-image: $highlight;
+}

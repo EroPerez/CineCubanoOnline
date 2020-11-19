@@ -1,0 +1,22 @@
+@import './colors';
+
+/**
+ * Variables
+ * 
+ * @author Alberto Manuel Ochoa Fabre <maochoa31415@gmail.com>
+ * @package Cine Cubano Online
+ * 
+ * The prefix for class names and variables names is: 'cco'
+ * 
+ * Custom variables here
+ */
+
+// Base
+$cco-border-radius: 1em;
+/**
+ * Override Bootstrap and Material Bootstrap variables here
+*/
+
+// Modals
+$modal-border-radius: $cco-border-radius;
+$modal-content-bg: $grey-100;

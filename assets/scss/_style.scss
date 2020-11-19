@@ -1,0 +1,684 @@
+@import './variables';
+@import '~bootstrap-material-design/scss/core';
+@import './components';
+@import './dark-theme';
+@import './mixins';
+
+/**
+ * @author Alberto Manuel Ochoa Fabre <maochoa31415@gmail.com>
+ * @package Cine Cubano Online
+ * 
+ * The prefix for class names and variables names is: 'cco'
+ */
+
+:root {
+    --cco-jumbotron-padding-y: 3rem;
+    --cco-transition-duration: 300ms;
+    --cco-main-section-bg-fade: 0.35;
+    --cco-main-section-bg-fade: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%);
+    --cco-border-radius: 1em;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    padding-top: 55px; // Correction for navbar
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+.jumbotron {
+    padding-top: var(--cco-jumbotron-padding-y);
+    padding-bottom: var(--cco-jumbotron-padding-y);
+    margin-bottom: 0;
+    background-color: #fff;
+
+    @media (min-width: 768px) {
+        .jumbotron {
+            padding-top: calc(var(--cco-jumbotron-padding-y) * 2);
+            padding-bottom: calc(var(--cco-jumbotron-padding-y) * 2);
+        }
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    .container {
+        max-width: 40rem;
+    }
+}
+
+.jumbotron-heading {
+    font-weight: 300;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, 0.085);
+}
+
+// Rounded controls
+.cco-btn-rounded {
+    border-radius: 70px;
+}
+
+.cco-rounded {
+    border-radius: var(--cco-border-radius);
+}
+
+.cco-rounded-medium {
+    border-radius: calc(var(--cco-border-radius) * 0.68);
+}
+
+// General Styles
+.highlight-link {
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+// Navbar header
+.cco-header {
+    .cco-navbar {
+        z-index: 2;
+
+        padding: {
+            top: 0;
+            bottom: 0;
+        }
+
+        // Divider on top
+        &::before {
+            content: "";
+            width: 100%;
+            height: 1px;
+            transform: translateY(-1px);
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            background-color: rgba($color: #fafafa, $alpha: 0.15);
+        }
+
+        // Container for links, brand, etc.
+        .cco-header-container {
+            .cco-navbar-icon {
+                font-size: 24px;
+                line-height: 24px;
+            }
+
+            .nav-item.dropdown {
+                .dropdown-menu {
+                    position: absolute;
+                }
+            }
+
+            // Highlight links icons
+            .nav-item {
+                .highlight-theme-selector::before {
+                    @include highlight-icon-link (linear-gradient(135deg, #eceff1 53%, #f09819 47%));
+                }
+    
+                &:hover {
+                    .highlight {
+                        &-search::before {
+                            @include highlight-icon-link(linear-gradient(to top, #b224ef 0%, #7579ff 100%));
+                        }
+    
+                        &-blog::before {
+                            @include highlight-icon-link(radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%));
+                        }
+    
+                        &-cart::before {
+                            @include highlight-icon-link(linear-gradient(to right, #ff758c 0%, #ff7eb3 100%));
+                        }
+        
+                        &-login-register::before {
+                            @include highlight-icon-link(linear-gradient(-60deg, #ff5858 0%, #f09819 100%));
+                        }
+    
+                        &-translate::before {
+                            @include highlight-icon-link(linear-gradient(to right, #0acffe 0%, #495aff 100%));
+                        }
+                    }
+                }
+            }
+
+            // Links highlight
+            .nav-item {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+    
+                &::after {
+                    content: "";
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 100%;
+                    height: 3px;
+                    border-radius: 5px;
+                    background-color: rgba(0, 0, 0, 0);
+                    transition: background-color var(--cco-transition-duration) ease;
+                }
+    
+                &.active::after {
+                    background-color: $blue;
+                }
+            }
+
+            #cco-navbar-collapse {
+                border: none;
+            }
+
+            // Search form
+            .cco-navbar-search {
+                position: absolute;
+                left: -100%;
+                opacity: 0;
+                width: 100%;
+                height: 100%;
+                transition:
+                    left var(--cco-transition-duration) ease,
+                    opacity var(--cco-transition-duration) ease;
+    
+                &.open {
+                    left: 0;
+                    opacity: 1;
+                }
+    
+                .cco-search-input {
+                    position: relative;
+    
+                    .cco-icon-search {
+                        position: absolute;
+                        top: 50%;
+                        left: 7px;
+                        transform: translateY(-50%);
+                        font-size: 24px;
+                        color: $grey-400;
+                        &::before {
+                            line-height: 24px;
+                        }
+                    }
+    
+                    .cco-search {
+                        appearance: none;
+                        color: $grey-200;
+                        border: none;
+                        background: rgba($color: $light, $alpha: 0.08);
+                        border-radius: 40px;
+                        padding: 8px 10px 8px 35px;
+                        line-height: initial;
+                        transition: background-color var(--cco-transition-duration) ease;
+    
+                        &::placeholder {
+                            color: $grey-300;
+                            line-height: 24px;
+                        }
+    
+                        &:focus {
+                            background:rgba($color: $light, $alpha: 0.15);
+                            border: none;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+// Main section, presentation
+.cco-main-section {
+    height: 100%;
+    position: relative;
+    border-radius: 0 !important;
+
+    // Fade effect at the bottom
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 70%;
+        width: 100%;
+        background-image: var(--cco-main-section-bg-fade);
+        pointer-events: none;
+    }
+
+    // Parallax main section
+    background: {
+        image: url("../img/main-section-bg.jpg");
+        size: cover;
+        position: center;
+        attachment: fixed;
+        repeat: no-repeat;
+        color: rgba(0, 0, 0, var(--cco-main-section-bg-fade));
+        blend-mode: multiply;
+    }
+
+    .container {
+        z-index: 1;
+    }
+
+    .cco-social-media-main-section {
+        position: absolute;
+        bottom: 1em;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+
+        .mdi:hover {
+            &.cco-media-facebook::before,
+            &.cco-media-twitter::before,
+            &.cco-media-instagram::before {
+                transition: color var(--cco-transition-duration) ease;
+            }
+
+            &.cco-media-facebook::before {
+                text-shadow: 0 2px 3px rgba(0, 0, 0, 0.6), 0 2px 1em #c5cae9;
+                color: #3f51b5 !important;
+            }
+
+            &.cco-media-twitter::before {
+                text-shadow: 0 2px 3px rgba(0, 0, 0, 0.6), 0 2px 1em #b3e5fc;
+                color: #29b6f6 !important;
+            }
+
+            &.cco-media-instagram::before {
+                text-shadow: 0 2px 3px rgba(0, 0, 0, 0.6), 0 2px 1em #e1bee7;
+                color: #9c27b0 !important;
+            }
+        }
+
+        .mdi::before {
+            font-size: 24px;
+            line-height: 24px;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.35), 0 2px 0.75em #fff;
+            transition: text-shadow var(--cco-transition-duration) ease;
+        }
+
+        a {
+            color: $grey-500;
+            transition: color var(--cco-transition-duration) ease;
+
+            &:hover {
+                color: $grey-50;
+            }
+        }
+    }
+
+    #cco-goto-services,
+    #cco-goto-articles {
+        transition: box-shadow var(--cco-transition-duration) ease;
+    }
+
+    #cco-goto-services {
+        background-image: linear-gradient(to top, #d61b5a 0%, #d6376c 100%);
+        color: #fce4ec;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0), 0 0 0 rgba(0, 0, 0, 0), inset 0 0 0 rgba(0, 0, 0, 0);
+
+        &:hover {
+            color: #fff !important;
+            background-image: linear-gradient(to top, #e91e63 0%, #ec407a 100%);
+            box-shadow: 0 0 8px #f48fb1, 0 0 20px #f48fb1, inset 0 0 4px #f48fb1;
+        }
+    }
+
+    #cco-goto-articles {
+        background-image: linear-gradient(-60deg, #d65353 0%, #d1851a 100%);
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0), 0 0 0 rgba(0, 0, 0, 0), inset 0 0 0 rgba(0, 0, 0, 0);
+        color: #fff3e0;
+
+        &:hover {
+            color: #fff !important;
+            background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
+            box-shadow: 0 0 8px #f09819, 0 0 20px #f09819, inset 0 0 4px #f09819;
+        }
+    }
+}
+
+.cco-main-content {
+
+    // Sections headers
+    .cco-header-section::after {
+        content: "";
+        display: block;
+        width: 3em;
+        height: 3px;
+        border-radius: 5px;
+        background-color: $grey-400;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 0.2em;
+    }
+
+    //--[ Sections
+    // Services
+    .cco-services {
+        position: relative;
+
+        background: {
+            image: linear-gradient(to top, $grey-200 0%, $grey-100 100%);
+            size: cover;
+            repeat: no-repeat;
+        }
+
+        @include overlay-bottom($grey-200, 2deg);
+
+        .cco-service {
+            position: relative;
+            overflow: hidden;
+
+            img {
+                border-radius: var(--cco-border-radius);
+            }
+
+            .mdi {
+                &::before {
+                    font-size: 28px;
+                    line-height: 28px;
+                }
+            }
+
+            // The button to show the service content
+            .cco-btn-service {
+                position: absolute;
+                top: 0;
+                right: 0;
+                background-color: $deep-orange-300;
+                padding: 0.75em;
+                border-radius: 0 var(--cco-border-radius);
+                color: $deep-orange-50;
+                transition: background-color var(--cco-transition-duration) ease;
+
+                &:hover {
+                    background-color: $deep-orange-400;
+                }
+            }
+
+            // Show more button or another button
+            .cco-service-action {
+                color: $white;
+                box-shadow: 0 0 12px 2px rgba($color: $light-blue-a400, $alpha: 0.43);
+
+                background: {
+                    color: transparent !important;
+                    image: linear-gradient(60deg, lighten($blue-400, 10%) 0%, lighten($blue-700, 10%) 100%);
+                    size: cover;
+                    position: center;
+                }
+
+                &:hover,
+                &:active,
+                &:focus {
+                    color: $white !important;
+                    background-image: linear-gradient(60deg, $blue-400 0%, $blue-700 100%);
+                }
+            }
+        }
+    }
+
+    // Articles
+    .cco-articles {
+        $overlay-height: 64px;
+        padding-bottom: $overlay-height; // Same overlay height see ".cco-contactus" section
+        padding-top: $overlay-height * 1.3;
+
+        .cco-article {
+            overflow: hidden;
+
+            p.card-text {
+                font-size: 1.1em !important;
+            }
+
+            // Actions to Edit, Read more, etc..
+            .cco-article-actions {
+                .btn {
+                    border-radius: calc(var(--cco-border-radius) - 3px) !important;
+                }
+
+                .cco-btn-read-article {
+                    color: $blue-500 !important;
+                }
+
+                .cco-btn-edit-article {
+                    color: $orange-800 !important;
+                }
+            }
+        }
+    }
+
+    // Get in touch
+    .cco-contactus {
+        $color-base: lighten($color: $grey-300, $amount: 5%);
+        position: relative; // To set a right positions for overlays
+        background-color: $color-base;
+
+        .cco-contactus {
+            position: relative;
+        }
+
+        // Overlays
+        @include overlay-top($color-base);
+        @include overlay-bottom($color-base);
+
+        // Form masking
+        // @media (min-width: 768px) {
+        //     & {
+        //         $mask-url: "../img/mask.svg";
+        //         @include masking($mask-url);
+        //         background-color: $color-base;
+        //     }
+        // }
+
+        .cco-contactus-form {
+            @media (min-width: 340px) {
+                & {
+                    min-width: 90%;
+                }
+            }
+
+            @media (min-width: 576px) {
+                & {
+                    min-width: 90%;
+                }
+            }
+
+            @media (min-width: 768px) {
+                & {
+                    min-width: 80%;
+                }
+            }
+
+            @media (min-width: 992px) {
+                & {
+                    min-width: 50%;
+                }
+            }
+        }
+    }
+}
+
+// Login register form inputs
+.cco-form-login-register {
+    .bmd-form-group:not(.is-filled) {
+        width: 100% !important;
+    }
+}
+
+.cco-footer {
+    padding-top: 32px; // Check the overlays in ".cco-contactus" section
+    padding-bottom: 0;
+    background-color: $grey-800;
+
+    p {
+        margin-bottom: .25rem;
+    }
+
+    .cco-widget-footer-links {
+        .nav-item {
+            margin: 0.3em 0;
+
+            .nav-link {
+                text-transform: unset;
+                color: $blue-grey-300;
+                padding: 0 1rem;
+
+                &.active,
+                &:hover {
+                    color: $blue-grey-50;
+                }
+            }
+        }
+
+        .cco-widget-footer-links-title {
+            text-transform: uppercase;
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+    }
+
+    .cco-social-media-footer {
+        background-color: $grey-900;
+        box-shadow: inset 0 3px 7px rgba($color: #000000, $alpha: 0.15);
+
+        .mdi::before {
+            font-size: 24px;
+            line-height: 24px;
+        }
+
+        a {
+            color: $grey-500;
+            transition: color var(--cco-transition-duration) ease;
+
+            &:hover {
+                color: $grey-50;
+            }
+        }
+    }
+}
+
+// Shoping car list
+.cco-shoping-car-list {
+    .modal-content {
+        background: {
+            image: url("../img/top-waves.svg");
+            position: top;
+            repeat: no-repeat;
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 84px;
+            background-image: linear-gradient(0, rgba(255,255,255,0) 0%, rgba($color: $modal-content-bg, $alpha: 0.7) 100%);
+            border-radius: var(--cco-border-radius);
+            z-index: 1;
+        }
+
+        .modal-header {
+            z-index: 2;
+        }
+
+        .modal-body {
+            z-index: 3;
+        }
+    }
+
+    .cco-order-list {
+        z-index: 3;
+        max-height: 370px;
+        overflow-y: auto;
+
+        .cco-order-product {
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 0;
+            transition: background-color var(--cco-transition-duration) ease;
+
+            &:hover {
+                background-color: rgba($color: $grey-50, $alpha: 0.6);
+            }
+
+            .cco-order-product-img {
+                width: 84px;
+                min-width: 84px;
+                height: auto;
+            }
+
+            .cco-order-product-description {
+                white-space: nowrap;
+            }
+
+            .cco-order-product-price {
+                line-height: 1em;
+                font-size: 1.5em;
+                color: $green-500;
+            }
+
+            .cco-order-product-total {
+                color: $blue-500;
+                margin-top: 0.1em;
+            }
+
+            .cco-order-product-count {
+                color: $grey-800; 
+                margin-bottom: 0.3em !important;
+                margin-right: 0;
+                max-width: 64px !important;
+                text-align: right;
+                border: none;
+
+                &::after, &::before {
+                    display: none;
+                }
+            }
+
+            .cco-order-product-actions {
+                font-weight: bold;
+                position: relative;
+
+                span {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+@include media-breakpoint-down(md) {
+    .cco-shoping-car-list {
+        .modal-content {
+            background-size: 200%;
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .cco-shoping-car-list {
+        .modal-content {
+            background-size: contain !important;
+        }
+    }
+}
+
+// Vertical horiented phone
+@media (min-width: 360px) {
+    .cco-shoping-car-list {
+        .modal-content {
+            background-size: 200%;
+        }
+    }
+}

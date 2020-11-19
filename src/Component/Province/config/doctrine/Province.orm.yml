@@ -1,0 +1,30 @@
+App\Component\Province\Model\Province:
+    type: mappedSuperclass
+    repositoryClass: App\Component\Province\Repository\ProvinceRepository
+    table: core_province
+    id:
+        id:
+            type: guid
+            length: 36
+            generator:
+                strategy: UUID
+    fields:
+        createdAt:
+            column: created_at
+            type: datetime
+            nullable: false
+        updatedAt:
+            column: updated_at
+            type: datetime
+            nullable: true
+        name:
+            column: name
+            type: string
+            length: 25
+            nullable: false
+    oneToMany:
+        companies:
+            targetEntity: App\Entity\Company
+            mappedBy: province
+            orphanRemoval: false
+            cascade: ['all']

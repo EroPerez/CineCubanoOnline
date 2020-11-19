@@ -1,0 +1,138 @@
+db:
+    default:
+      id: Id
+    discount:
+      name: Nombre
+      code: Código
+      discount: Descuento
+    order:
+
+    orderItem:
+
+    product:
+        name: Nombre
+        image: Imagen
+        price: Precio
+
+app:
+    head:
+        title: Carrito de compras
+    default:
+        cart: Carrito
+        summary: Resumen
+        remove: Eliminar
+        actions: Acciones
+        currencyCode: PLN
+        currencyDescription: zł
+    home:
+        title: Lista de productos
+        table:
+            column:
+                product: Productos
+                price: Precio
+    cart:
+        title: Carrito
+        table:
+            column:
+                product: Productos
+                price: Precio
+                quantity: Cantidad
+                discountValue: Discount value
+                summaryWithDiscount: Summary price with discount
+                toPay: To pay
+        setItemQuantity:
+            button: Modificar
+            message:
+                success: The product quantity has been changed
+                failed: There were problems with changing the item quantity
+        addItem:
+            button: Add to cart
+            message:
+                success: The product has been added to shopping cart
+                failed: There was a problem with adding the product to the cart
+        removeItem:
+            button: Remove
+            message:
+                success: The product has been removed from shopping cart
+                failed: There was a problem with removing the product from the cart
+        clear:
+            button: Clear the cart
+            message:
+                success: The cart is now empty
+                failed: There was a problem with clearing the cart
+        setPayment:
+            title: Payment
+            select: Choose the payment method
+            button: Choose
+            message:
+                success: The payment method has been choosen
+                failed: There was a problem with choosing the payment method
+        setShipment:
+            title: Shipment
+            select: Choose the shipping method
+            button: Choose
+            message:
+                success: The shipping method has ben choosen
+                failed: There was a problem with choosing the shipping method
+        setDiscount:
+            title: Discount
+            placeholder: Enter the discount code
+            button: Confirm the code
+            message:
+                success: Discount code has been used
+                codeNotFound: Discount code is invalid
+
+# main menu
+admin:
+    menu:
+        dashboard:     Panel de Control
+        configuration: Configuraciones
+        province:      Provincias
+        service:  Categorías
+        security: Seguridad
+        user: Usuarios
+        company: Compañías
+        general: Gestionar
+
+
+# entity names, labels and titles
+Province: Provincia
+Provinces: Lista de Provincias
+Service: Categoría
+Services: Lista de Categorías
+User: Usuario
+Users: Lista de Usuarios
+Company: Compañía
+Companies: Lista de compañías
+
+# Labels
+form.label.delete: Eliminar?
+roles.user: Usuario
+roles.admin: Administrador
+roles.super.admin: Super Administrador
+roles.editor: Editor
+
+# entity properties
+FirstName: Nombre
+LastName: Apellidos
+Username: Nombre de Usuario
+Password: Contraseña
+Email: Correo Electrónico
+Roles: Roles
+FullName: Nombre Completo
+CreatedAt: Creado en
+UpdatedAt: Actualizado en
+LastLogin: Último Acceso
+Enabled: Habilitado
+Enabled?: Habilidatdo?
+SuperAdmin: Super Administrador
+SuperAdmin?: Super Admin?
+Avatar: Imagen
+Name: Nombre
+Phone: Teléfono
+Address: Dirección particular 
+LegalPoeple: Persona legal
+JuristPeople: Personalidad jurídica
+InscriptionNumber: Número de inscripción TCP
+Logo: Logo
+Owner: Propietario

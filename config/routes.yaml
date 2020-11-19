@@ -1,0 +1,7 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+dashboard:
+    path: /{_locale}/admin
+    controller: App\Controller\Admin\DashboardController::index

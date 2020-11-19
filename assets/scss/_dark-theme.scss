@@ -1,0 +1,174 @@
+@import './mixins';
+
+$background-dark: $grey-900;
+
+// General Styles
+.highlight-link {
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+body {
+    background-color: $background-dark;
+
+    &.dark-theme {
+        background-color: $background-dark;
+    }
+}
+
+.dark-theme {
+    .cco-header {
+        .cco-navbar {
+            .cco-header-container {
+                .nav-item {
+                    .highlight-theme-selector::before {
+                        @extend .highlight-link;
+                        background-image: linear-gradient(-45deg, #eceff1 53%, #81d4fa 47%);
+                    }
+                }
+            }
+        }
+    }
+
+    .jumbotron {
+        background-color: $background-dark;
+    }
+
+    .box-shadow {
+        box-shadow: 0 .25rem .75rem rgba(0, 0, 0, 0.2);
+    }
+
+    .cco-main-content {
+        .cco-services {
+            background: {
+                image: none;
+                background-color: $background-dark;
+            }
+
+            @include overlay-bottom($background-dark, 2deg);
+
+            .cco-service {
+                .cco-service-description {
+                    color: $grey-100;
+                }
+
+                .cco-service-action {
+                    box-shadow: 0 0 6px 2px rgba($color: $light-blue-a400, $alpha: 0.3), inset 0 0 5px rgba(128, 217, 255, 0);
+                    transition: box-shadow var(--cco-transition-duration) ease;
+
+                    &:hover {
+                        box-shadow: 0 0 12px 2px rgba(0, 176, 255, 0.43), inset 0 0 7px rgba(128, 217, 255, 0.8);
+                    }
+                }
+            }
+        }
+
+        .cco-articles {
+            background-color: $grey-800 !important;
+
+            .cco-article {
+                background-color: $background-dark !important;
+
+                &.box-shadow {
+                    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, 0.3) !important;
+                }
+
+                .cco-article-title {
+                    color: $grey-100;
+                }
+
+                .cco-article-description {
+                    color: $grey-400;
+                }
+
+                // Actions to Edit, Read more, etc..
+                .cco-article-actions {
+                    .cco-btn-read-article {
+                        color: $light-blue-200 !important;
+                    }
+
+                    .cco-btn-edit-article {
+                        color: $orange-400 !important;
+                    }
+                }
+            }
+        }
+
+        .cco-contactus {
+            $color-base: $background-dark;
+            background-color: $color-base !important;
+
+            // Overlays
+            @include overlay-top($color-base);
+            @include overlay-bottom($color-base);
+
+            .cco-contactus-form {
+                div:not(.is-focused) {
+                    .bmd-label-floating {
+                        color: $grey-100 !important;
+                    }
+                }
+            }
+        }
+
+        .cco-header-section {
+            color: $grey-100;
+
+            &::after {
+                background-color: $grey-700;
+            }
+        }
+    }
+
+    .cco-shoping-car-list {
+        .modal-content {
+            background-color: $background-dark;
+            background-image: url("../img/top-waves-dark.svg");
+
+            &::before {
+                background-image: linear-gradient(0, rgba(255,255,255,0) 0%, rgba($color: $background-dark, $alpha: 0.9) 100%);
+            }
+
+            .modal-header {
+
+                .modal-title,
+                .cco-close-shoping-car-list {
+                    color: $grey-50;
+                }
+            }
+
+            .modal-footer {
+                border-top-color: rgba($color: $modal-footer-border-color, $alpha: 0.1);
+            }
+        }
+
+        .cco-order-list {
+            .cco-order-product {
+                &:hover {
+                    background-color: rgba($color: $grey-50, $alpha: 0.08);
+                }
+
+                .cco-order-product-name {
+                    color: $grey-100;
+                }
+
+                .cco-order-product-description {
+                    color: $grey-400;
+                }
+
+                .cco-order-product-count {
+                    color: $grey-200;
+                }
+
+                .cco-order-product-actions {
+                    .cco-order-actions {
+                        button:not(.dropdown-item) {
+                            color: $grey-200;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
