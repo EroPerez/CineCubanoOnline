@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/alvbzduv1sve/public_html/cinecubano.online/
+    - /bin/cp -R . $DEPLOYPATH
