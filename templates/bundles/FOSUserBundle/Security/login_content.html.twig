@@ -1,0 +1,45 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<main class="cco-main-content" role="main">
+    <section class="cco-login d-flex">
+        <form class="cco-form-login d-flex flex-column align-items-center m-auto py-5" action="{{ path("fos_user_security_check") }}" method="post">
+            <img class="mb-2" height="128px" width="auto" src="{{ asset('build/images/brand.png')}}" alt="Cine Cubano Online" />
+            <h3 class="cco-brand font-weight-light mb-4">Cine Cubano Online</h3>
+            <div class="form-group d-flex align-items-center w-100">
+                <span class="mdi mdi-account-circle mdi-18px text-muted"></span>
+                {#                <input required autofocus placeholder="{{ 'security.login.username'|trans }}" type="text" class="form-control ml-2" id="cco-user" value="{{ last_username }}" name="_username">#}
+                <input autofocus type="text" id="cco-user" name="_username" value="{{ last_username }}" placeholder="{{ 'security.login.username'|trans }}" required="required" autocomplete="username" class="form-control ml-2"/>
+            </div>
+            <div class="form-group d-flex align-items-center w-100 position-relative">
+                <span class="mdi mdi-key text-muted mdi-18px"></span>
+                <input placeholder="{{ 'security.login.password'|trans }}" type="password" class="form-control ml-2" id="cco-password" name="_password"  required="required" autocomplete="current-password">
+                <button type="button" class="cco-password-action btn btn-secondary bmd-btn-icon" title="{{ 'Show password'|trans({},'app')  }}">
+                    <span class="mdi mdi-eye"></span>
+                </button>
+            </div>
+            {% if error %}
+                <small class="form-text text-danger mb-3">{{ error.messageKey|trans(error.messageData, 'security')|raw }}</small>
+            {% endif %}
+
+            <div class="d-flex justify-content-between w-100">
+                <label class="cco-checkbox ml-0">
+                    <input type="checkbox" id="remember_me" name="_remember_me">
+                    <span class="checkicon text-primary"></span>
+                    {{ 'security.login.remember_me'|trans }}
+                </label>
+                <a href="{{path('fos_user_resetting_request')}}" class="text-secondary mb-2" title="{{'I forget or lost my password'|trans({},'app')  }}">{{ 'resetting.request.submit'|trans }}</a>
+
+            </div>
+
+            <div class="w-100 d-flex justify-content-between mt-3">
+                <input type="hidden" name="go_to" value="{{path('dashboard')}}"/>  
+                <button type="submit" id="_submit" name="_submit" class="cco-btn-login-action btn btn-info btn-raised cco-btn-rounded">{{ 'security.login.submit'|trans }}</button>
+
+                <a href="{{path('fos_user_registration_register')}}" type="button" class="cco-btn-login-action cco-btn-register btn cco-btn-rounded border border-info">{{ 'layout.register'|trans  }}</a>
+            </div>
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            {% endif %}
+        </form>
+    </section>
+</main>  

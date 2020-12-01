@@ -9,60 +9,19 @@ import "./holder.min";
  * @description Bootstrap theme for Cine Cubano Online
  */
 
-const NAVBAR_COLLAPSE = '#cco-navbar-header';
 const CCO_USERNAME_INPUT = '#cco-username';
 
 $(function () {
     'use strict';
 
-    $('[data-toggle="tooltip"]').tooltip();
-
-    /**
-     * @description Small plugin to add a scrollto behavior
-     * @author Alberto Manuel Ochoa Fabre <maochoa31415@gmail.com>
-     * @example
-     * ```html
-     *  
-     * ```
-     */
-    $('[data-scrollto]').click(function (event) {
-        event.preventDefault();
-        // Store hash
-        let elTarget = $(this).data('scrollto');
-
-        $('html, body').animate({
-            scrollTop: $(elTarget).offset().top - 60
-        }, 1000);
-    })
-
-    // Set focus to usename when collapse is showed
-    $(NAVBAR_COLLAPSE).on('show.bs.collapse', function () {
-        // Wait for transition end
-        setTimeout(() => {
-            $(CCO_USERNAME_INPUT).focus();
-        }, 500);
-    });
-
-    // Hide navbar content, simulate a 'Clickout listener'
-    const hideNavCollapse = [
-        'body section',
-        'body footer',
-        'body main',
-        'body section'
-    ]
-    $(hideNavCollapse.join(',')).click(function () {
-        $(NAVBAR_COLLAPSE).collapse('hide');
-    });
+    // Init
+    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="popover"]').popover()
 
     // Go to contact form from header
-    $('#email-me').click(function () {
-        $(NAVBAR_COLLAPSE).collapse('hide');
-
-        // Delay to wait for collapse animation
-        setTimeout(function () {
-            $('#cco-getintouch-name').focus();
-        }, 1300);
-    });
+    // $('#email-me').click(function () {
+    //     $('#cco-getintouch-name').focus();
+    // });
 
     $('#cco-theme-selector').click(function (event) {
         event.preventDefault();
@@ -70,16 +29,17 @@ $(function () {
         $('body').toggleClass('dark-theme');
     })
 
-    // Open and close the search form
-    $('#cco-open-search, #cco-close-search').click(function (event) {
-        event.preventDefault();
+    // Show or hide the password value
+    $('.cco-password-action').click(function () {
+        const self = $(this)
+        const parent = self.parent()
+        const inputPass = parent.children('input')
+        const inputPassAttr = inputPass.attr('type')
 
-        $('.cco-navbar-search').val('');
-        $('.cco-navbar-search').toggleClass('open');
+        inputPass.attr('type', inputPassAttr == 'password' ? 'text' : 'password')
+        self.attr('title', inputPassAttr == 'password' ? 'Hide password' : 'Show password')
 
-        // Wait for transition and set the focus
-        setTimeout(() => {
-            $('.cco-navbar-search.open .cco-search').focus();
-        }, 800);
+        self.children().toggleClass('mdi-eye')
+        self.children().toggleClass('mdi-eye-off')
     })
 })

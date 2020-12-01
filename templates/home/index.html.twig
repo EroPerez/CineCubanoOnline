@@ -1,49 +1,86 @@
 {% extends 'layout/app.html.twig' %}
 
+{% block top %}
+    <section class="cco-main-section d-flex jumbotron text-center">
+        {% include 'layout/main-section.html.twig' %}
+    </section>
+{% endblock %}
+
 {% block body %}
-    <h2 class="font-weight-light text-center mb-3 text-uppercase cco-header-section">{{ 'app.home.title'|trans }}</h2>
-    <div class="container">
-        <div class="row align-items-center">
-
-            {% for product in products %}
-                <!-- Resposive conteiner -->
-                <div class="col-md-4">
-                    <!--[ The service -->
-                    <div class="cco-service card mb-4 shadow-none bg-transparent">
-                        <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Service preview" alt="Card image cap">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <p class="cco-service-description card-text text-center">
-                                {{ product.name }}
-                            </p>
-                            <a href="#" class="cco-service-action btn bg-primary cco-btn-rounded text-light m-0">Saber mas</a>
+    <main class="cco-main-content" role="main">  
+        <!--[ Services ]-->
+        <section id="cco-services" class="cco-services py-5">
+            <div class="container d-flex flex-column">
+                <div class="d-flex flex-column justify-content-center mb-3">
+                    <h2 class="font-weight-light cco-header-section text-center mb-2 text-uppercase ">{{ 'Services'|trans }}</h2>
+                    <a role="button" class="cco-btn-service-categories" data-toggle="collapse"
+                       href="#cco-service-categories-list" aria-expanded="false" aria-controls="cco-service-categories-list">
+                        <h6 class="text-secondary text-center m-0">{{ 'Explore by category'|trans }}</h6>
+                    </a>
+                    <div id="cco-service-categories-list" class="collapse">
+                        <div class="d-flex align-items-center justify-content-center flex-wrap">
+                            {% for category in categories %}
+                                <a href="{{ path('explore_services') }}?filter[eq][category_id]={{category.id}}&order[service_created_at]=desc" class="badge badge-secondary badge-pill mr-2 mt-1">{{ category }}</a>
+                            {% endfor %}
                         </div>
-                        <!-- Service indicator button -->
-                        {{ render(controller('App\\Controller\\Shop\\CartController::addItemForm', {'id' : product.id})) }}
                     </div>
-                    <!-- The service ]-->
                 </div>
-            {% endfor %}
 
-            <!--                <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>{#{{ 'app.home.table.column.product'|trans }}#}</th>
-                                        <th>{#{{ 'app.home.table.column.price'|trans }}#}</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-            {#{% for product in products %}#}
-                <tr>
-                    <td>{#{{ product.name }}#}</td>
-                    <td>{#{{ product.price|number_format(2, ',', ' ') }}#} {#{{ 'app.default.currencyDescription'|trans }}#}</td>
-                    <td>
-            {#{{ render(controller('App\\Controller\\Shop\\CartController::addItemForm', {'id' : product.id})) }}#}
-        </td>
-    </tr>
-            {#{% endfor %}#}
-        </tbody>
-    </table>-->
-        </div>
-    </div>
+                <!-- Service list -->
+                <div class="row align-items-center justify-content-start">
+                    {% for service in services %}
+                        <div class="col-md-4">
+                            <div class="cco-service card mb-4 shadow-none bg-transparent">
+
+                                <img class="card-img-top" style="height: 225px; width: 100%; display: block;"  src="{{service.logoUrl }}" alt="Card image cap">
+                                <div class="card-body d-flex flex-column px-0">
+                                    <h5 class="cco-service-title font-weight-light">{{service.title}}</h5>
+                                    <h6 class="text-muted">{{service.company}}</h6>
+                                    <p class="cco-service-description card-text text-justify">
+                                        {{service.description|striptags|slice(0, 50)}}...
+                                    </p>
+                                    <div class="cco-service-footer d-flex justify-content-between align-items-center">
+                                        <span class="cco-service-category badge badge-secondary text-muted d-flex align-items-center badge-pill px-1">{{service.category }}</span>
+                                        <a href="{{ path('detail_services', {id: service.id}) }}" class="cco-service-action btn bg-primary cco-btn-rounded text-light m-0">{{ 'Know more'|trans }}</a>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>  
+
+                    {% endfor %}
+
+                </div>
+                <a href="{{ path('explore_services') }}" role="button" class="btn btn-primary align-self-center cco-btn-rounded">{{ 'explore more'|trans }}</a>
+
+            </div>
+        </section>
+        <section id="cco-products" class="cco-products py-5">
+            <h2 class="font-weight-light text-center mb-2 text-uppercase cco-header-section">{{ 'Products'|trans }}</h2>
+            <p class="lead text-muted text-center mb-3">{{ 'app.home.title'| trans }}</p>
+            <div class="container d-flex flex-column">
+                <div class="row align-items-center mb-5">
+                    {% for product in products %}
+                        <div class="col">
+                            <div class="cco-product card cco-rounded overflow-hidden mb-3 mb-md-0">
+                                <div class="cco-product-img">
+                                    <img class="card-img-top" style="height: 225px; width: 100%; display: block;"  src="{{product.image }}"  alt="Card image cap">
+                                    <!-- Service indicator button -->
+                                    {{ render(controller('App\\Controller\\Shop\\CartController::addItemForm', {'id' : product.id})) }}
+                                </div>
+                                <div class="cco-product-body card-body d-flex flex-column align-items-center">
+                                    <h5 class="cco-product-name card-title text-muted"> {{ product.name }}</h5>
+                                    <h2 class="position-relative font-weight-light">
+                                        <span class="cco-price-icon mdi mdi-currency-usd"></span>
+                                        <span class="cco-product-price">{{product.price}}</span>
+                                    </h2>
+                                    {#                                    <p class="cco-product-description card-text text-center text-muted">{{'description'}}</p>#}
+                                </div>
+                            </div>
+                        </div> 
+                    {% endfor %}
+                </div>
+                <a href="./explore-products.html" role="button" class="btn btn-primary align-self-center cco-btn-rounded">{{ 'explore more'|trans }}</a>
+            </div>
+        </section>       
+    </main>   
 {% endblock %}

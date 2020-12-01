@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\ServiceRepository;
@@ -7,6 +9,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Component\Core\Model\TimestampableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+//use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ServiceRepository::class)
@@ -14,7 +20,9 @@ use App\Component\Core\Model\TimestampableTrait;
  *      name="core_service"
  * )
  */
-class Service {
+class Service implements TranslatableInterface {
+
+    use TranslatableTrait;
 
     use TimestampableTrait;
 
@@ -29,25 +37,7 @@ class Service {
     private $id;
 
     public function getId(): ?string {
-        return $this->id;
-
-    }
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $name;
-
-    public function getName(): ?string {
-        return $this->name;
-
-    }
-
-    public function setName(string $name): self {
-        $this->name = $name;
-
-        return $this;
-
+        return (string)$this->id;
     }
 
     /**
@@ -63,40 +53,66 @@ class Service {
     protected $updatedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Company::class, mappedBy="services")
+     * @ORM\OneToMany(targetEntity=CompanyServices::class, mappedBy="category", orphanRemoval=true)
      */
     private $companies;
 
+    /**
+     * @Assert\Valid
+     */
+    protected $translations;
+
     public function __construct() {
         $this->companies = new ArrayCollection();
-
     }
 
+    public function __call($method, $arguments) {
+//        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get' . ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+//
+//    public function __get($name) {
+//        $method = 'get' . ucfirst($name);
+//        $arguments = [];
+//        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+//    }    
+    
+
     /**
-     * @return Collection|Company[]
+     * @return Collection|CompanyServices[]
      */
     public function getCompanies(): Collection {
         return $this->companies;
-
     }
 
-    public function addCompany(Company $company): self {
-        if (!$this->companies->contains($company)) {
-            $this->companies[] = $company;
-            $company->addService($this);
+    public function addCompany(CompanyServices $companyService): self {
+        if (!$this->companies->contains($companyService)) {
+            $this->companies[] = $companyService;
+            $companyService->setService($this);
         }
 
         return $this;
-
     }
 
-    public function removeCompany(Company $company): self {
-        if ($this->companies->removeElement($company)) {
-            $company->removeService($this);
+    public function removeCompany(CompanyServices $companyService): self {
+        if ($this->companies->removeElement($companyService)) {
+            // set the owning side to null (unless already changed)
+            if ($companyService->getService() === $this) {
+                $companyService->setService(null);
+            }
         }
 
         return $this;
+    }
 
+    /**
+     * Represents a string representation.
+     *
+     * @return string
+     */
+    public function __toString() {
+        return $this->getName() ?: (string)$this->getId();
     }
 
 }

@@ -1,0 +1,4 @@
+app:
+    company:
+        services:
+            unique: La categoría seleccionada esta asociada ya a la empresa.

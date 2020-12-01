@@ -8,7 +8,7 @@
  */
 
 .cco-btn-rounded {
-    border-radius: 50px !important;
+    border-radius: 60px !important;
 }
 
 // Icon badges
@@ -37,6 +37,320 @@
 
         .modal-footer {
             border-top: solid 1px $modal-footer-border-color;
+        }
+    }
+}
+
+// Switch
+/**
+ * Example:
+ *  <label class="cco-switch">
+ *      <input type="checkbox">
+ *      <span class="cco-slider"></span>
+ *  </label>
+ */
+.cco-switch {
+    position: relative;
+    display: inline-block;
+    width: ($cco-switch-size * 1px);
+    height: $cco-switch-border-radius;
+
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked+.cco-slider {
+            background-color: #2196F3;
+        }
+
+        // Simple border
+        // &:focus+.cco-slider {
+        //     box-shadow: 0 0 1px #2196F3;
+        // }
+
+        &:checked+.cco-slider:before {
+            transform: translateX($cco-switch-slider-size) translateY(-50%);
+        }
+    }
+
+    .cco-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: var(--cco-transition-duration);
+        border-radius: $cco-switch-border-radius;
+
+        &:before {
+            content: "";
+            position: absolute;
+            height: $cco-switch-slider-size;
+            width: $cco-switch-slider-size;
+            left: $cco-switch-slider-margin;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            transition: var(--cco-transition-duration);
+            border-radius: $cco-switch-border-radius;
+        }
+    }
+}
+
+// Dropdown
+.cco-dropdown {
+    position: relative;
+
+    .dropdown-menu {
+        display: block;
+        opacity: 0;
+        overflow: hidden;
+
+        &.cco-dropdown-menu-lg {
+            width: 256px;
+        }
+
+        &.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}
+
+// Checkbox & Radio
+/**
+ * Examples
+ *  <label class="cco-checkbox">
+ *      <input type="checkbox">
+ *      <span class="checkicon"></span>
+ *      Label
+ *  </label>
+ * 
+ * <label class="cco-radio mb-0">
+ *     <input type="radio">
+ *     <span class="checkicon text-primary"></span>
+ *     Search in categories
+ * </label>
+ * 
+ * Custom label color
+ * <label class="cco-radio mb-0">
+ *     <input type="radio">
+ *     <span class="checkicon"></span>
+ *     <span class="text-light">Search in categories</span>
+ * </label>
+ * 
+ * To change the color icon shuch add a custom class:
+ * <span class="checkicon text-primary"></span>
+ * <span class="checkicon text-success"></span>
+ */
+.cco-checkbox,
+.cco-radio {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: 0.3em;
+    cursor: pointer;
+    font-size: inherit;
+    user-select: none;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+
+        &:checked {
+            &~.checkicon {
+                &:before {
+                    display: block;
+                    opacity: 0;
+                }
+
+                &::after {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .checkicon {
+        position: relative;
+        top: 0;
+        left: 0;
+        height: 24px;
+        width: 24px;
+        display: flex;
+        margin-right: 0.3em;
+
+        &:after,
+        &:before {
+            font: normal normal normal 24px/1 "Material Design Icons";
+            display: inline-block;
+            font-size: 24px;
+            text-rendering: auto;
+            line-height: inherit;
+            margin: auto;
+            transition: opacity var(--cco-transition-duration) ease;
+        }
+    }
+}
+
+.cco-checkbox,
+.cco-radio {
+    .checkicon {
+
+        // Unchecked icon
+        &:before {
+            opacity: 1;
+        }
+
+        // Checked icon
+        &:after {
+            position: absolute;
+            opacity: 0;
+        }
+    }
+}
+
+.cco-checkbox {
+    .checkicon {
+
+        // Unchecked icon
+        &:before {
+            content: "\F0131";
+        }
+
+        // Checked icon
+        &:after {
+            content: "\F0132";
+        }
+    }
+}
+
+.cco-radio {
+    .checkicon {
+
+        // Unchecked icon
+        &:before {
+            content: "\F043D";
+        }
+
+        // Checked icon
+        &:after {
+            content: "\F043E";
+        }
+    }
+}
+
+// Selects
+.cco-select {
+    // $cco-select-icon-color: $grey-800;
+    $cco-select-icon: "data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12,18.17L8.83,15L7.42,16.41L12,21L16.59,16.41L15.17,15M12,5.83L15.17,9L16.58,7.59L12,3L7.41,7.59L8.83,9L12,5.83Z' /></svg>";
+    height: calc(1.5em + .7125rem);
+    min-width: 168px;
+    padding: .35rem 1.5rem .35rem 0;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    border-radius: calc(var(--cco-border-radius) * 0.3);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.03);
+    border: none;
+    cursor: pointer;
+    background: url($cco-select-icon) no-repeat right 0 center/22px 22px;
+    background-color: #fff;
+    transition: box-shadow var(--cco-transition-duration) ease;
+
+    &:focus {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    // &.cco-select-sm {
+    //     height: calc(1.5em + .8125rem + 2px);
+    // }
+}
+
+// Search input
+/**
+ * Example:
+ *    <div class="cco-search-input d-flex align-items-center">
+ *        <span class="mdi mdi-magnify cco-search-icon"></span>
+ *        <input type="search" class="flex-grow-1" placeholder="Search placeholder" autofocus />
+ *        <button type="submit" class="btn btn-primary cco-btn-rounded d-none d-md-inline mb-0 ml-0 ml-md-2">Search</button>
+ *    </div>
+ */
+.cco-search-input {
+    position: relative;
+    min-width: 45%;
+
+    input {
+        $cco-input-bg: $grey-400;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        padding: 0.35rem 0.4rem 0.35rem 1.8rem;
+        border: none;
+        border-radius: 60px;
+        background-color: rgba($color: $cco-input-bg, $alpha: 0.3);
+        color: $grey-800;
+        width: 100%;
+        transition: background-color var(--cco-transition-duration) ease;
+
+        &:hover,
+        &:focus {
+            background-color: rgba($color: $cco-input-bg, $alpha: 0.4);
+        }
+
+        &::placeholder {
+            line-height: unset !important;
+        }
+    }
+
+    .cco-search-icon {
+        font-size: 24px;
+        color: $grey-500;
+        position: absolute;
+        top: 50%;
+        left: 7px;
+        transform: translateY(-50%);
+    }
+
+    .dark-theme & {
+        input {
+            $cco-input-bg: $grey-400;
+            background-color: rgba($color: $grey-600, $alpha: 0.3);
+            color: $grey-100;
+
+            &:hover,
+            &:focus {
+                background-color: rgba($color: $grey-600, $alpha: 0.4);
+            }
+        }
+    }
+}
+
+// Pagination
+.cco-pagination {
+    .page-item {
+        &.active {
+            .page-link {
+                background-color: transparent !important;
+                border: solid 1px $blue-400;
+                color: $blue-400;
+            }
+        }
+
+        .page-link {
+            line-height: 1.5 !important;
+            transition: background-color var(--cco-transition-duration) ease;
+
+            &:hover {
+                background-color: $grey-300;
+            }
         }
     }
 }

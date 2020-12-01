@@ -1,0 +1,21 @@
+doctrine_behaviors:
+    translatable: true
+    
+# KNP-PAGINATOR-BUNDLE................................................................................. #
+# https://victorroblesweb.es/2016/02/27/paginacion-con-knppaginatorbundle-en-symfony3/
+knp_paginator:
+    page_range: 5                       # rango por defecto de paginas en los controles del paginador
+    default_options:
+        page_name: page                 # nombre del parámetro de la URL para la página
+        sort_field_name: sort           # nombre del parámetro de la URL para la ordenación
+        sort_direction_name: direction  # nombre del parámetro de la URL para la dirección(ASC o DESC)
+        distinct: true                  # Garantizar resultados distintos
+        page_out_of_range: ignore
+    template:
+        # Para ver las diferentes plantillas existentes accedemos a:
+        # vendor\knplabs\Knp-Paginator-Bundle\Resources\views\Pagination\
+        # Usamos la plantilla 'KnpPaginatorBundle:Pagination:twitter_bootstrap_v4_pagination.html.twig'
+        # Indicamos la ruta donde se encontrará la plantilla
+        pagination: layout/custom_pagination.html.twig  # plantilla controles
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # plantilla links ordenación
+# .................................................................................KNP-PAGINATOR-BUNDLE #

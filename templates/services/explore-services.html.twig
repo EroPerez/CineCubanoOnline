@@ -1,0 +1,93 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block body %}
+    <main class="cco-main-content" role="main">
+        <section id="cco-search" class="cco-search py-5">
+            <div class="container">
+                <h2 class="cco-search-title font-weight-light text-center">{{'Search title'|trans  }}</h2>
+                <p class="lead text-center text-muted">{{'Search subtitle'|trans  }}</p>
+                <form class="cco-search-form d-flex flex-column align-items-center justify-content-center" action="{{ path('explore_services') }}" method="get">
+
+                    <!-- Options -->
+                    <div class="cco-search-options d-flex align-items-center flex-column flex-md-row mt-3">
+                        <!-- By category -->
+                        <div class="d-flex align-items-center mr-0 mr-md-2">
+                            <label for="cco-enterprise" class="m-0 mr-2">{{'Category'|trans  }}</label>
+                            <select name="filter[eq][category_id]" id="cco-enterprise" class="cco-select custom-select">
+                                <option value="">{{ 'Select'|trans }}</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}" {% if category_id ==  category.id%} selected{% endif %}>{{ category }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                        <!-- By Enterprise -->
+                        <div class="d-flex align-items-center mt-2 mt-md-0">
+                            <label for="cco-enterprise" class="m-0 mr-2">{{'Company'|trans  }}</label>
+                            <select name="filter[eq][company_id]" id="cco-enterprise" class="cco-select custom-select">
+                                <option value="">{{ 'Select'|trans }}</option>
+                                {% for company in companies %}
+                                    <option value="{{ company.id }}" {% if company_id ==  company.id%} selected{% endif %}>{{ company }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- By category -->
+                        {#<div class="d-flex align-items-center mr-0 mr-md-2">
+                            <label for="cco-province" class="m-0 mr-2">{{'Province'|trans  }}</label>
+                            <select name="filter[eq][province_id]" id="cco-province" class="cco-select custom-select">
+                                <option value="">{{ 'Select'|trans }}</option>
+                                {% for province in provinces %}
+                                    <option value="{{ province.id }}" {% if province_id ==  province.id%} selected{% endif %}>{{ province }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>#}
+                    </div>
+                    <div class="cco-search-input d-flex align-items-center">
+                        <span class="mdi mdi-magnify cco-search-icon"></span>
+                        <input type="search" name="filter[ilike][service_title]" 
+                               class="flex-grow-1" 
+                               placeholder="{{'Search placeholder'|trans  }}" 
+                               value="{{title}}"
+                               autofocus />
+                        <button type="submit" class="btn btn-primary cco-btn-rounded d-none d-md-inline mb-0 ml-0 ml-md-2">
+                            <span class="mdi mdi-filter-plus">{{'Search'|trans  }}</span> 
+                        </button>
+                        <input type="hidden" name="order[service_created_at]", value="desc"/>
+                    </div>
+                </form>
+
+                <!-- Search result -->
+                <section class="cco-services mt-5">
+                    <h4 class="cco-search-result-title text-center">{{'Results for'|trans  }} <small class="text-info">{{'Query'|trans  }}</small></h4>
+                    <!-- Service list -->
+                    <div class="row align-items-center justify-content-start mt-3">
+                        {% for service in services %}
+                            <div class="col-md-4">
+                                <div class="cco-service card mb-4 shadow-none bg-transparent">
+                                    <img class="card-img-top" style="height: 225px; width: 100%; display: block;"  src="{{service.logoUrl }}" alt="Card image cap">
+                                    <div class="card-body d-flex flex-column px-0">
+                                        <h5 class="cco-service-title font-weight-light">{{service.title}}</h5>
+                                        <h6 class="text-muted">{{service.company}}</h6>
+                                        <p class="cco-service-description card-text text-justify">
+                                            {{service.description|striptags|slice(0, 50)}}...
+                                        </p>
+                                        <div class="cco-service-footer d-flex justify-content-between align-items-center">
+                                            <span class="cco-service-category badge badge-secondary text-muted d-flex align-items-center badge-pill px-1">{{service.category }}</span>
+                                            <a href="{{ path('detail_services', {id: service.id}) }}" class="cco-service-action btn bg-primary cco-btn-rounded text-light m-0">{{ 'Know more'|trans }}</a>
+                                        </div>
+                                    </div>
+                                    <!-- <a href="#" class="cco-btn-service btn mdi mdi-cart-plus m-0" title="Add to cart"></a> -->
+                                </div>
+                            </div> 
+                        {% endfor %}
+                    </div>
+                    <!-- Pagination -->
+                    <div class="d-flex align-items-center justify-content-center">
+                        {{ knp_pagination_render(services) }}
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+{% endblock %}

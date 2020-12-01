@@ -1,0 +1,65 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<main class="cco-main-content" role="main">
+    <section class="cco-register d-flex">
+        {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register cco-form-register d-flex flex-column align-items-center m-auto py-5 px-3 px-md-0'}}) }}
+        <img class="mb-2" height="128px" width="auto" src="{{ asset('build/images/brand.png')}}" alt="Cine Cubano Online" />
+        <h3 class="cco-brand font-weight-light mb-2">Cine Cubano Online</h3>
+        <p class="lead mb-3 text-secondary">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group d-flex align-items-center">
+                    <span class="mdi mdi-card-account-details mdi-18px text-muted"></span>
+                    {{ form_widget(form.firtName, {'attr': {'class': 'form-control ml-2', 'required': 'required', 'placeholder': 'FirstName' }}) }}
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group d-flex align-items-center">
+                    <span class="mdi mdi-card-account-details mdi-18px text-muted"></span>
+                    {{ form_widget(form.lastName, {'attr': {'class': 'form-control ml-2', 'required': 'required', 'placeholder': 'LastName' }}) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 d-flex flex-column">
+                <div class="form-group d-flex align-items-center">
+                    <span class="mdi mdi-account-circle mdi-18px text-muted"></span>
+                    {{ form_widget(form.username, {'attr': {'class': 'form-control ml-2', 'required': 'required', 'placeholder': 'form.username'}}) }}
+                    <span class="cco-field-alert mdi mdi-alert-rhombus mdi-18px" data-toggle="popover" data-trigger="hover" title="Error" data-content="Required"></span>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 d-flex flex-column">
+                <div class="form-group d-flex align-items-center">
+                    <span class="mdi mdi-email mdi-18px text-muted"></span>
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control ml-2', 'required': 'required', 'placeholder': 'form.email'}}) }}
+                    <span class="cco-field-alert mdi mdi-alert-rhombus mdi-18px" data-toggle="popover" data-trigger="hover" title="Error" data-content="Required"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 d-flex flex-column">
+                <div class="form-group d-flex align-items-center position-relative">
+                    <span class="mdi mdi-key text-muted mdi-18px"></span>
+                    {#   {% set password = 'Password'|trans({},'app')  %}#}
+                    {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control ml-2', 'required': 'required', 'placeholder': 'form.password'}}) }}
+                    <button type="button" class="cco-password-action btn btn-secondary bmd-btn-icon" title="{{ 'Show password'|trans({},'app')  }}">
+                        <span class="mdi mdi-eye"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group d-flex align-items-center position-relative">
+                    <span class="mdi mdi-key-plus text-muted mdi-18px"></span>
+                    {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control ml-2', 'required': 'required', 'placeholder': 'form.password_confirmation'}}) }}
+                    <span class="cco-field-alert mdi mdi-alert-rhombus mdi-18px" data-toggle="popover" data-trigger="hover" title="Error" data-content="Required"></span>
+                </div>
+            </div>
+        </div>
+        <div class="w-100 d-flex justify-content-between mt-3">
+            {#                    <a href="#" class="text-secondary">Term & conditions</a>#}
+            <button type="submit" class="cco-btn-register-action btn btn-info btn-raised cco-btn-rounded">{{ 'registration.submit'|trans }}</button>
+        </div>
+        {{ form_end(form) }}
+    </section>
+</main>

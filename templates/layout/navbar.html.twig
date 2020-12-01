@@ -1,0 +1,79 @@
+
+<nav class="cco-navbar navbar fixed-top navbar-dark bg-dark box-shadow">
+    <div class="cco-header-container w-100 d-flex justify-content-between position-relative" role="navigation">
+        <a href="{{ path('home') }}" class="navbar-brand d-flex align-items-center mr-0">
+            <img class="mr-0 mr-md-2" src="{{ asset('build/images/brand.png')}}" alt="CCO" height="30px" width="auto">
+            <strong class="d-none d-md-inline">CineCubano Online</strong>
+        </a>
+
+        <!--[ Links ]-->
+        <ul class="navbar-nav my-2 flex-row ml-0 ml-md-auto">
+            <li class="nav-item">
+                <a id="cco-open-search" class="nav-link rounded" href="{{ path('explore_services') }}" title="{{ 'Open search'|trans }}" aria-label="open search">
+                    <span class="cco-navbar-icon mdi mdi-magnify highlight-search"></span>
+                    <span class="sr-only">{{ 'Search'|trans }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rounded" href="#" title="Blog" aria-label="blog">
+                    <span class="cco-navbar-icon mdi mdi-post-outline highlight-blog"></span>
+                    <span class="sr-only">{{ 'Blog'|trans }}</span>
+                </a>
+            </li>
+            {% if itemsInCart|default(false) %}
+                <li class="nav-item">
+                    <a class="nav-link rounded" href="{{ path('cart') }}" title="{{ 'app.default.cart'|trans }}" aria-label="cart shoping" >
+                        <span class="cco-navbar-icon mdi mdi-cart-outline highlight-cart">
+                            <span class="cco-badge-dot">{{ itemsInCart | default('0') }}</span>                                    
+                        </span>
+                        <span class="sr-only">{{ 'app.default.cart'|trans }}</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <li class="nav-item">
+                    <a class="nav-link rounded" href="{{ path('dashboard') }}" role="button" title=" {{ 'admin.menu.dashboard'|trans }}" aria-controls="cco-navbar-header" aria-label="dashboard">
+                        <span class="cco-navbar-icon mdi mdi-briefcase highlight-cart"></span>
+                        <span class="sr-only">{{'admin.menu.dashboard'|trans }}</span>
+                    </a>
+                </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link rounded" href="{{ path('fos_user_security_logout') }}" role="button" title=" {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} | {{ 'layout.logout'|trans({},'FOSUserBundle') }}" aria-controls="cco-navbar-header" aria-label="login or register">
+                        <span class="cco-navbar-icon mdi mdi-logout highlight-login-register"></span>
+                        <span class="sr-only">{{ 'layout.logout'|trans({},'FOSUserBundle') }}</span>
+                    </a>
+                </li>
+            {%else%}      
+                <li class="nav-item">
+                    <a class="nav-link rounded" href="{{ path('fos_user_security_login') }}" role="button" title="{{ 'Log In/Register'|trans }}" aria-controls="cco-navbar-header" aria-label="login or register">
+                        <span class="cco-navbar-icon mdi mdi-account-circle-outline highlight-login-register"></span>
+                        <span class="sr-only">{{ 'Log In/Register'|trans }}</span>
+                    </a>
+                </li>
+            {% endif %}
+            <li class="nav-item">
+                <a id="cco-theme-selector" class="nav-link rounded" data-toggle="collapse" href="#" role="button" title="{{ 'Select Dark/Ligth Theme'|trans  }}" aria-controls="cco-navbar-header" aria-label="login or register">
+                    <span class="cco-navbar-icon mdi mdi-theme-light-dark highlight-theme-selector"></span>
+                    <span class="sr-only">{{ 'Select Dark/Ligth Theme'|trans  }}</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a id="cco-translate" class="nav-link dropdown-toggle rounded" role="button" href="#" title="{{ 'Language'|trans }}" aria-label="translate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="cco-navbar-icon mdi mdi-translate highlight-translate"></span>
+                    <span class="sr-only">{{ 'Language'|trans }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="cco-translate">
+                    <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'es'})) }}">
+                        <img src="{{ asset('build/css/flags/flags/4x3/es.svg') }}" width="18px" class="text-muted mr-2">
+                        {{ 'Spanish'|trans }}
+                    </a>
+                    <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'en'}))}}">
+                        <img src="{{ asset('build/css/flags/flags/4x3/us.svg') }}" width="18px" class="text-muted mr-2">
+                        {{ 'English'|trans  }}
+                    </a>                    
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,29 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<main class="cco-main-content" role="main">
+    <section class="cco-register cco-reset-password d-flex">
+        {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset cco-form-register d-flex flex-column align-items-center m-auto py-5 px-3 px-md-0' } }) }}
+        <img class="mb-3" height="128px" width="auto" src="{{ asset('build/images/brand.png')}}" alt="CCO" />
+        <h3 class="cco-brand font-weight-light mb-3 cco-header-section">{{ 'resetting.request.submit'|trans }}</h3>
+        {#        {{ form_widget(form) }}#}
+
+        <div class="form-group d-flex align-items-center position-relative">
+            <span class="mdi mdi-key text-muted mdi-18px"></span>            
+            {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control ml-2', 'required': 'required', 'placeholder': 'form.new_password'}}) }}
+            <button type="button" class="cco-password-action btn btn-secondary bmd-btn-icon" title="{{ 'Show password'|trans({},'messages')  }}">
+                <span class="mdi mdi-eye"></span>
+            </button>
+        </div>
+        <div class="form-group d-flex align-items-center position-relative">
+            <span class="mdi mdi-key-plus text-muted mdi-18px"></span>
+            {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control ml-2', 'required': 'required', 'placeholder': 'form.new_password_confirmation'}}) }}
+            <button type="button" class="cco-password-action btn btn-secondary bmd-btn-icon" title="{{ 'Show password'|trans({},'messages')  }}">
+                <span class="mdi mdi-eye"></span>
+            </button>
+        </div>
+        <div class="form-group d-flex justify-content-between mt-3">
+            <input type="submit" class="btn btn-info btn-raised cco-btn-rounded" value="{{ 'resetting.reset.submit'|trans }}" />
+        </div>
+
+        {{ form_end(form) }}
+    </section>
+</main>

@@ -13,9 +13,21 @@
 
 // Base
 $cco-border-radius: 1em;
+
+/**
+ * Custom Components
+ * 
+ */
+
+// Switch
+$cco-switch-size: 38;
+$cco-switch-border-radius: ($cco-switch-size * 0.5667 * 1px);
+$cco-switch-slider-size: ($cco-switch-border-radius * 0.7647);
+$cco-switch-slider-margin: ($cco-switch-slider-size * 0.1538);
+
 /**
  * Override Bootstrap and Material Bootstrap variables here
-*/
+ */
 
 // Modals
 $modal-border-radius: $cco-border-radius;

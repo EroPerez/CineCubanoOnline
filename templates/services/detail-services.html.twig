@@ -1,0 +1,26 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block body %}
+
+    <main class="cco-main-content" role="main">
+        <section id="cco-service-detail" class="cco-services cco-service-detail py-5">
+            <div class="container">
+                <div class="cco-service-detail-body container cco-rounded-medium cco-waves-bg pb-4">
+                    <img class="cco-service-image cco-rounded shadow-lg" height="auto" style="width: 192px; height: 192px;" src="{{ service.logoUrl }}" alt="Card image cap">
+                    <div class="d-flex flex-column justify-content-center mb-3">
+                        <h2 class="cco-header-section font-weight-light text-left mb-2 text-uppercase">{{service.title}}</h2>
+                        <h4 class="cco-service-enterprise text-muted font-weight-light">
+                            {{service.company}}
+                            <a href="#"><small>{{'Contact'|trans }}</small></a>
+                        </h4>
+                        <a href="#" class="cco-service-category badge badge-secondary d-flex align-items-center badge-pill px-1 align-self-start">{{service.category}}</a>
+                    </div>
+                    <p class="lead cco-service-description px-0 px-md-3 px-lg-4 text-justify">
+                      {{service.description|striptags}}  
+                    </p>
+                    <a href="#" role="button" class="btn btn-success btn-raised cco-btn-rounded">{{ 'Contract service'|trans }}</a>
+                </div>
+            </div>
+        </section>
+    </main>                 
+{% endblock %}

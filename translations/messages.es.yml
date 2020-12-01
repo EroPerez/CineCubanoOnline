@@ -30,6 +30,10 @@ app:
             column:
                 product: Productos
                 price: Precio
+        intro:
+            message: Español- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur voluptatibus at praesentium quae voluptatem! Incidunt adipisci dicta ipsa, commodi deleniti quas!
+            services: Servicios recientes
+            articles: Post recientes
     cart:
         title: Carrito
         table:
@@ -43,20 +47,20 @@ app:
         setItemQuantity:
             button: Modificar
             message:
-                success: The product quantity has been changed
+                success: La cantidad de producto ha sido cambiada
                 failed: There were problems with changing the item quantity
         addItem:
-            button: Add to cart
+            button: Añadir al carrito
             message:
                 success: The product has been added to shopping cart
                 failed: There was a problem with adding the product to the cart
         removeItem:
-            button: Remove
+            button: Eliminar
             message:
                 success: The product has been removed from shopping cart
                 failed: There was a problem with removing the product from the cart
         clear:
-            button: Clear the cart
+            button: Limpiar el carrito
             message:
                 success: The cart is now empty
                 failed: There was a problem with clearing the cart
@@ -70,7 +74,7 @@ app:
         setShipment:
             title: Shipment
             select: Choose the shipping method
-            button: Choose
+            button: Seleccionar
             message:
                 success: The shipping method has ben choosen
                 failed: There was a problem with choosing the shipping method
@@ -91,22 +95,31 @@ admin:
         service:  Categorías
         security: Seguridad
         user: Usuarios
-        company: Compañías
+        company: Empresas
         general: Gestionar
 
 
 # entity names, labels and titles
 Province: Provincia
 Provinces: Lista de Provincias
-Service: Categoría
-Services: Lista de Categorías
+Category: Categoría
+Categories: Lista de Categorías
 User: Usuario
 Users: Lista de Usuarios
-Company: Compañía
-Companies: Lista de compañías
+Company: Empresa
+Companies: Lista de empresas
+CompanyServices: Lista de servicios de la empresa
+CompanyService: Servicio de la empresa
+Products: Productos
+Product: Producto
+Article: Artículo
+Articles: Artículos
+Service: Servicio
+Services: Servicios
 
 # Labels
 form.label.delete: Eliminar?
+# Roles labels
 roles.user: Usuario
 roles.admin: Administrador
 roles.super.admin: Super Administrador
@@ -136,3 +149,29 @@ JuristPeople: Personalidad jurídica
 InscriptionNumber: Número de inscripción TCP
 Logo: Logo
 Owner: Propietario
+Description: Descripción
+Title: Título
+
+# General term
+By Default: Por Defecto
+Language: Idioma
+Spanish: Español
+English: Inglés
+Show password: Mostrar contraseña
+I forget or lost my password: He olvidado mi contraseña
+Log In/Register: Ingresar o registrarse
+Know more: Saber más
+Select Dark/Ligth Theme: Escoje tema oscuro o iluminado
+Search: Buscar
+Open search: Abrir búsqueda
+Go home: Ir a Inicio
+explore more: Explorar más
+Explore by category: Explorar por categoría
+Contact: Contactar
+Contract service: Contratar servicio
+Search title: Buscar un servicio
+Search subtitle: Español - Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+Search placeholder: Buscar por título
+Results for : Resultado para
+Query: Consulta
+Select: Seleccionar

@@ -65,7 +65,7 @@ class Product implements ProductInterface
      */
     public function getImage(): string
     {
-        return $this->image;
+        return $this->image?:"/build/images/main-section-bg.jpg";
     }
 
     /**

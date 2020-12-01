@@ -15,18 +15,18 @@ services:
       - ./var/mysql:/var/lib/mysql
   node:
     container_name: cart_node
-    image: node:8
+    image: node
     working_dir: /var/www
     volumes:
       - .:/var/www:cached
-      - ./.npmrc:/home/node/.npmrc
-      - ./.npmrc:/root/.npmrc
+#      - ./.npmrc:/home/node/.npmrc
+#      - ./.npmrc:/root/.npmrc
     tty: true
   app:
     container_name: cart_app
     build: .docker/app
     ports:
-      - 80:80
+      - 8080:80
 #    restart: none
     volumes:
       - .docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
@@ -34,6 +34,14 @@ services:
     depends_on:
       - db
       - node
+      - mailhog
     links:
       - db
       - node
+      - mailhog
+  mailhog:
+    image: mailhog/mailhog
+    container_name: cart_mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"

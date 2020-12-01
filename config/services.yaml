@@ -1,9 +1,13 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
+    locale: 'es'
+    app_locales: en|es
+    
     app.path.company_logo: /uploads/company/logo
     app.path.user_avatar: /uploads/user/avatar
+    app.path.company.services.logo: /uploads/company/services/logo
+    app.path.company_video: /uploads/company/video
 
 services:
     # default configuration for services in *this* file
@@ -13,6 +17,9 @@ services:
         public: false       # Allows optimizing the container by removing unused services; this also means
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
+        bind:
+            $locales: '%app_locales%'
+            $defaultLocale: '%locale%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -36,3 +43,9 @@ services:
     App\Event\DumpChanges:
         tags:
             - {name: doctrine.event_listener, event: onFlush }
+    # Http Doctrine Filter --------------------------------------------------------
+    App\HttpDoctrineFilter\Filter:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@validator'
+# END Http Doctrine Filter ----------------------------------------------------

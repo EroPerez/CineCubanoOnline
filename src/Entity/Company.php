@@ -16,6 +16,10 @@ use App\Component\Core\Model\TimestampableTrait;
 /**
  * @Vich\Uploadable
  * @ORM\Entity(repositoryClass=CompanyRepository::class)
+ * @ORM\Table(
+ *      name="manage_company"
+ * )
+ * @Assert\Callback(methods={"validate"})
  */
 class Company
 {
@@ -65,12 +69,7 @@ class Company
      * @ORM\ManyToOne(targetEntity=Province::class, inversedBy="companies")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $province;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Service::class, inversedBy="companies")
-     */
-    private $services;
+    private $province;   
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="companies")
@@ -87,7 +86,8 @@ class Company
     /**
      * @Assert\Image(
      *      maxSize="2M",
-     *      mimeTypes={"image/svg", "image/png","image/jpg", "image/jpeg", "image/pjpeg", "image/gif"})
+     *      mimeTypes={"image/svg", "image/png","image/jpg", "image/jpeg", "image/pjpeg"}
+     * )
      * @Vich\UploadableField(mapping="company_logo", fileNameProperty="logo")
      * @var File $logoFile
      */
@@ -105,9 +105,31 @@ class Company
      */
     protected $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CompanyServices::class, mappedBy="company", orphanRemoval=true)
+     */
+    private $services;
+    
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    private $video = null;
+
+    /**
+     * @Assert\File(
+     *          maxSize="10M",
+     *          mimeTypes={"video/mp4", "video/avi"}
+     * )
+     * @Vich\UploadableField(mapping="company_video", fileNameProperty="video")
+     * @var File $videoFile
+     */
+    private $videoFile;
+
     public function __construct()
     {
-        $this->services = new ArrayCollection();
+        $this->services = new ArrayCollection();        
     }
 
     public function getId(): ?string
@@ -197,31 +219,7 @@ class Company
         $this->province = $province;
 
         return $this;
-    }
-
-    /**
-     * @return Collection|Service[]
-     */
-    public function getServices(): Collection
-    {
-        return $this->services;
-    }
-
-    public function addService(Service $service): self
-    {
-        if (!$this->services->contains($service)) {
-            $this->services[] = $service;
-        }
-
-        return $this;
-    }
-
-    public function removeService(Service $service): self
-    {
-        $this->services->removeElement($service);
-
-        return $this;
-    }
+    }   
 
     public function getOwner(): ?User
     {
@@ -233,6 +231,10 @@ class Company
         $this->owner = $owner;
 
         return $this;
+    }
+    
+    public function isOwner($user) {
+        return $user->getId() == $this->getOwner()->getId();
     }
     
     public function setLogoFile(File $image = null) {
@@ -272,5 +274,86 @@ class Company
 
     public function getLogo(): ?string {
         return $this->logo;
+    }
+
+    /**
+     * @return Collection|CompanyServices[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(CompanyServices $companyService): self
+    {
+        if (!$this->services->contains($companyService)) {
+            $this->services[] = $companyService;
+            $companyService->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(CompanyServices $companyService): self
+    {
+        if ($this->services->removeElement($companyService)) {
+            // set the owning side to null (unless already changed)
+            if ($companyService->getCompany() === $this) {
+                $companyService->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    
+    public function setVideoFile(File $video = null) {
+        $this->videoFile = $video;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($video) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getVideoFile() {
+        return $this->videoFile;
+    }
+    
+    public function hasVFile(): bool {
+        return null !== $this->videoFile;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getVideoUrl(): string {
+        if ($this->hasVFile()) {
+            return (string) ("/uploads/company/video/" . $this->getVideo());
+        }
+        return "/uploads/company/video/video0.mp4";
+
+    }
+
+    public function seVideo($aVideo): self {
+        $this->video = $aVideo;
+        return $this;
+    }
+
+    public function getVideo(): ?string {
+        return $this->video;
+    }
+    
+    /**
+     * Represents a string representation.
+     *
+     * @return string
+     */
+    public function __toString() {
+        return $this->getName() ?: $this->getId();
+
     }
 }

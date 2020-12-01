@@ -1,0 +1,19 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <main class="cco-main-content" role="main">
+        <section class="cco-register d-flex">
+            <div class="d-flex flex-column align-items-center m-auto py-5 px-3 px-md-0">
+                <img class="mb-3" height="128px" width="auto" src="{{ asset('build/images/brand.png')}}" alt="Cine Cubano Online" />
+                <h3 class="cco-brand font-weight-light mb-4 cco-header-section">Cine Cubano Online</h3>
+                <p class="lead text-center">
+{#                    Check <em class="font-weight-normal text-info"><a href="mailto:user@mail.com">user@mail.com</a></em> to complete the register.#}
+                    {{ 'registration.check_email'|trans({'%email%': user.email}) }}
+                </p>
+                <a href="{{ path('home') }}" class="btn btn-secondary cco-btn-rounded">{% trans from 'messages' %}Go home{% endtrans %}</a>
+            </div>
+        </section>
+    </main>
+{% endblock fos_user_content %}

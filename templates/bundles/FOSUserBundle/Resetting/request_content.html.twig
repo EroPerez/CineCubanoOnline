@@ -1,0 +1,15 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<main class="cco-main-content" role="main">
+    <section class="cco-register cco-reset-password d-flex">
+        <form action="{{ path('fos_user_resetting_send_email') }}" method="POST"  class="fos_user_resetting_request d-flex flex-column align-items-center m-auto py-5 px-3 px-md-0">
+            <img class="mb-3" height="128px" width="auto" src="{{ asset('build/images/brand.png')}}" alt="Reset password" />
+            <h3 class="cco-brand font-weight-light mb-3 cco-header-section">{{ 'resetting.request.username'|trans }}</h3>
+            <div class="form-group d-flex align-items-center w-100">
+                <span class="mdi mdi-email mdi-18px text-muted"></span>
+                <input required autofocus type="test" class="form-control ml-2" id="cco-email" name="username">
+            </div>
+            <button type="submit" class="btn btn-info btn-raised cco-btn-rounded">{{ 'resetting.request.submit'|trans }}</button>
+        </form>
+    </section>
+</main>

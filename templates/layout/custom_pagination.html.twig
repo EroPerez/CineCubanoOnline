@@ -1,0 +1,88 @@
+{% if pageCount > 1 %}
+    <nav class="cco-pagination" aria-label="Pagination services">
+        <ul class="pagination m-0">
+
+            {#            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next" title="Next">
+                                <span aria-hidden="true" class="mdi mdi-chevron-double-right"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+            #}
+
+            {# PODEMOS CAMBIAR LAS ETIQUETAS DE NAVEGACIÓN AQUÍ.................................. #}
+            {% if previous is defined %}
+                <li class="page-item">
+                    <a rel="prev_link" class="page-link" href="{{ path(route, query|merge({(pageParameterName): previous})) }}" title="{{ 'label_previous'|trans({}, 'KnpPaginatorBundle') }}">
+                        <span aria-hidden="true" class="mdi mdi-chevron-double-left"></span>
+                        <span class="sr-only">{{ 'label_previous'|trans({}, 'KnpPaginatorBundle') }}</span>
+                    </a>
+                </li>
+            {% endif %}
+            {# ..................................PODEMOS CAMBIAR LAS ETIQUETAS DE NAVEGACIÓN AQUÍ #}
+
+            {% if startPage > 1 %}
+                <li class="page-item">
+                    <a class="page-link"  href="{{ path(route, query|merge({(pageParameterName): 1})) }}">1</a>
+                </li>
+                {% if startPage == 3 %}
+                    <li class="page-item">
+                        <a class="page-link"  href="{{ path(route, query|merge({(pageParameterName): 2})) }}">2</a>
+                    </li>
+                {% elseif startPage != 2 %}
+                    <li class="page-item">
+                        <span>&hellip;</span>
+                    </li>
+                {% endif %}
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li  class="page-item active" >
+                        <span class="page-link">{{ page }}</span>
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+
+            {% if pageCount > endPage %}
+                {% if pageCount > (endPage + 1) %}
+                    {% if pageCount > (endPage + 2) %}
+                        <li  class="page-item">
+                            <span>&hellip;</span>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): (pageCount - 1)})) }}">{{ pageCount -1 }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">{{ pageCount }}</a>
+                </li>
+            {% endif %}
+
+            {# PODEMOS CAMBIAR LAS ETIQUETAS DE NAVEGACIÓN AQUÍ.................................. #}
+            {% if next is defined %}
+                <li class="page-item">
+
+                    <a class="page-link next_link" href="{{ path(route, query|merge({(pageParameterName): next})) }}" title="{{ 'label_next'|trans({}, 'KnpPaginatorBundle') }}">
+                        <span aria-hidden="true" class="mdi mdi-chevron-double-right"></span>
+                        <span class="sr-only">{{ 'label_next'|trans({}, 'KnpPaginatorBundle') }}</span>
+
+                    </a>
+                </li>
+
+            {% endif %}
+            {# ..................................PODEMOS CAMBIAR LAS ETIQUETAS DE NAVEGACIÓN AQUÍ #}
+
+        </ul>
+    </nav>
+{% endif %}

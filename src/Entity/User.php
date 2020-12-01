@@ -7,6 +7,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use FOS\UserBundle\Model\User as BaseUser;
+use FOS\MessageBundle\Model\ParticipantInterface;
 use App\Component\Core\Model\TimestampableTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +26,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * )
  *
  */
-class User extends BaseUser {
+class User extends BaseUser implements ParticipantInterface{
 
     use TimestampableTrait;
 
@@ -84,6 +85,8 @@ class User extends BaseUser {
     public function __construct() {
         parent::__construct();
         $this->companies = new ArrayCollection();
+        $this->firtName="Tomas";
+        $this->lastName="Gutierres";
 
     }
 
@@ -164,14 +167,14 @@ class User extends BaseUser {
 
     }
 
-    public function setFirstName($first_name): self {
+    public function setFirtName($first_name): self {
         $this->firtName = $first_name;
 
         return $this;
 
     }
 
-    public function getFirstName() {
+    public function getFirtName() {
         return $this->firtName;
 
     }
@@ -189,7 +192,7 @@ class User extends BaseUser {
     }
 
     public function getFullName() {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->getFirtName() . ' ' . $this->getLastName();
 
     }
     

@@ -46,6 +46,23 @@
 @mixin highlight-icon-link ($highlight) {
     color: transparent;
     background-clip: text;
-    -webkit-background-clip: text;
     background-image: $highlight;
+    -webkit-background-clip: text;
+}
+
+// To add a background fulgore
+@mixin fulgore ($img, $size: 40%) {
+    background-image: url('../img/'+ $img + '.svg');
+    background-size: $size;
+}
+
+@mixin detail-bg ($img, $size: contain) {
+    background: {
+        image: url('../img/'+ $img + '.svg');
+        size: $size;
+        position: top;
+        attachment: initial;
+        repeat: no-repeat;
+        attachment: fixed;
+    }
 }

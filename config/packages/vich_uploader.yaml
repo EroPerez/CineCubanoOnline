@@ -18,3 +18,19 @@ vich_uploader:
             delete_on_remove:   true 
             inject_on_load:     true
             delete_on_update:   true
+        company_services_logo:
+            uri_prefix: '%app.path.company.services.logo%'
+            upload_destination: '%kernel.project_dir%/public%app.path.company.services.logo%'
+            namer:              vich_uploader.namer_uniqid    
+            directory_namer:    ~    
+            delete_on_remove:   true 
+            inject_on_load:     true
+            delete_on_update:   true
+        company_video:
+            uri_prefix: '%app.path.company_video%'
+            upload_destination: '%kernel.project_dir%/public%app.path.company_video%'
+            namer:              vich_uploader.namer_uniqid    
+            directory_namer:    ~    
+            delete_on_remove:   true 
+            inject_on_load:     true
+            delete_on_update:   true

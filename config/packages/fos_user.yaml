@@ -7,3 +7,12 @@ fos_user:
     from_email:
         address: "noreplay@cinecubano.online"
         sender_name: "Cine Cubano Online"
+        
+    service:
+            mailer: fos_user.mailer.twig_swift
+
+    registration:
+        form:
+           type: App\Form\RegistrationFormType
+        confirmation:
+           enabled: true

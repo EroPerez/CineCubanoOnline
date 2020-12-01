@@ -1,0 +1,41 @@
+{% extends 'bootstrap_4_layout.html.twig' %}
+
+{% block button_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' btn')|trim}) %}
+    {% if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+    {% if icon|default %}
+        {% set iconHtml = icon %}
+    {% else %}
+        {% set iconHtml = '' %}
+    {% endif %}
+    {% if icon_before|default %}
+        {% set iconHtmlBefore = icon_before %}
+    {% else %}
+        {% set iconHtmlBefore = '' %}
+    {% endif %}
+    {% if icon_after|default %}
+        {% set iconHtmlAfter = icon_after %}
+    {% else %}
+        {% set iconHtmlAfter = '' %}
+    {% endif %}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        {% if iconHtml %}
+            {{ iconHtml|raw }}
+        {% elseif iconHtmlBefore %}
+            {{ iconHtmlBefore|raw }} {{ label|trans({}, translation_domain) }}
+        {% elseif iconHtmlAfter %}
+            {{ label|trans({}, translation_domain) }} {{ iconHtmlAfter|raw }}
+        {% else %}
+            {{ label|trans({}, translation_domain) }}
+        {% endif %}
+    </button>
+{%- endblock button_widget %}

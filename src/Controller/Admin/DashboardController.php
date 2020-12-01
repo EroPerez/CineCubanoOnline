@@ -14,7 +14,7 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_USER")
  */
 class DashboardController extends AbstractDashboardController {
 
@@ -29,7 +29,7 @@ class DashboardController extends AbstractDashboardController {
     }
 
     /**
-     * @Route("/{_locale}/admin", name="admin")
+     * @Route("/{_locale}/admin", name="dashboard", defaults={"_locale"="es"}, requirements={"_locale"="en|es"})
      */
     public function index(): Response {
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -80,7 +80,7 @@ class DashboardController extends AbstractDashboardController {
         return Crud::new()
             // this defines the pagination size for all CRUD controllers
             // (each CRUD controller can override this value if needed)
-            ->setPaginatorPageSize(25)
+            ->setPaginatorPageSize(10)
         ;
 
     }

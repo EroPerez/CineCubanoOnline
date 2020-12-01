@@ -1,0 +1,12 @@
+{% macro fromCountryCode(country_code) %}
+    {% if country_code|lower  == 'es' %}
+        <i class="flag-icon flag-icon-es"></i>
+    {%else%}
+        <i class="flag-icon flag-icon-us"></i>
+    {%endif%}
+{% endmacro %}
+
+{% macro fromLocaleCode(locale_code) %}
+    {% import _self as flags %}
+    {{ flags.fromCountryCode(locale_code|slice(-2)) }}
+{% endmacro %}

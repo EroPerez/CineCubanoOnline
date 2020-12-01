@@ -25,11 +25,15 @@ app:
         currencyCode: PLN
         currencyDescription: zł
     home:
-        title: Services
+        title: Products List
         table:
             column:
                 product: Product
                 price: Price
+        intro:
+            message: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur voluptatibus at praesentium quae voluptatem! Incidunt adipisci dicta ipsa, commodi deleniti quas!
+            services: Latest Services
+            articles: Latest Post
     cart:
         title: Cart
         table:
@@ -98,15 +102,20 @@ admin:
 # entity names, labels and titles
 Province: Province
 Provinces: List of Provinces
-Service: Category
-Services: List of Categories
+Category: Category
+Categories: List of Categories
 User: User
 Users: List of Users
 Company: Company
 Companies: List of companies
+CompanyServices: List of Company Services
+CompanyService: Company Service
+Service: Service
+Services: Services
 
 # Labels
 form.label.delete: Delete?
+# Roles labels
 roles.user: User
 roles.admin: Administrator
 roles.super.admin: Super Administrator
@@ -137,3 +146,26 @@ JuristPeople: Jurist People
 InscriptionNumber: Inscription Number
 Logo: Logo
 Owner: Owner
+Description: Descrition
+Title: Title
+
+# General term
+By Default: By Default
+Language: Language
+Spanish: Spanish
+English: English
+Know more: Know more
+Select Dark/Ligth Theme: Select Dark/Ligth Theme
+Search: Search
+Open search: Open Search
+Go home: Go home
+explore more: Explore more
+Explore by category: Explore by category
+Contact: Contact
+Contract service: Contract service
+Search title: Search a service
+Search subtitle: Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+Search placeholder: Search by title
+Results for : Results for
+Query: Query
+Select: Select
