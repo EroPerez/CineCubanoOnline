@@ -49,3 +49,12 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@validator'
 # END Http Doctrine Filter ----------------------------------------------------
+    App\Command\ChatSocketCommand:
+        tags:
+            - { name: 'console.command', command: 'socket:start:chat' }
+
+    app.contact.chat:
+        class: App\Service\ContactChatService
+        public: true
+        arguments: 
+          - '@doctrine.orm.entity_manager'

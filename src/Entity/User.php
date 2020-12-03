@@ -26,7 +26,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * )
  *
  */
-class User extends BaseUser implements ParticipantInterface{
+class User extends BaseUser implements ParticipantInterface {
+
+//    const ROLE_USER = 'ROLE_USER';
+    const ROLE_EDITOR = 'ROLE_EDITOR';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
+//    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+
 
     use TimestampableTrait;
 
@@ -82,12 +89,23 @@ class User extends BaseUser implements ParticipantInterface{
      */
     protected $lastName;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ContactMessage", mappedBy="user")
+     */
+    private $contactMessages;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ContactConversation", mappedBy="members", cascade={"persist", "remove"})
+     */
+    private $contactConversations;
+
     public function __construct() {
         parent::__construct();
         $this->companies = new ArrayCollection();
-        $this->firtName="Tomas";
-        $this->lastName="Gutierres";
-
+        $this->contactConversations = new ArrayCollection();
+        $this->contactMessages = new ArrayCollection();
+        $this->firtName = "Tomas";
+        $this->lastName = "Gutierres";
     }
 
     /**
@@ -95,7 +113,6 @@ class User extends BaseUser implements ParticipantInterface{
      */
     public function getCompanies(): Collection {
         return $this->companies;
-
     }
 
     public function addCompany(Company $company): self {
@@ -105,7 +122,6 @@ class User extends BaseUser implements ParticipantInterface{
         }
 
         return $this;
-
     }
 
     public function removeCompany(Company $company): self {
@@ -117,7 +133,6 @@ class User extends BaseUser implements ParticipantInterface{
         }
 
         return $this;
-
     }
 
     public function setAvatarFile(File $image = null): self {
@@ -131,17 +146,14 @@ class User extends BaseUser implements ParticipantInterface{
         }
 
         return $this;
-
     }
 
     public function getAvatarFile() {
         return $this->avatarFile;
-
     }
 
     public function hasFile(): bool {
         return null !== $this->avatarFile;
-
     }
 
     /**
@@ -152,51 +164,115 @@ class User extends BaseUser implements ParticipantInterface{
             return (string) ("/uploads/user/avatar/" . $this->getAvatar());
         }
         return "/uploads/user/avatar/avatar0.png";
-
     }
 
     public function setAvatar($avatar): self {
         $this->avatar = $avatar;
 
         return $this;
-
     }
 
     public function getAvatar() {
         return $this->avatar;
-
     }
 
     public function setFirtName($first_name): self {
         $this->firtName = $first_name;
 
         return $this;
-
     }
 
     public function getFirtName() {
         return $this->firtName;
-
     }
 
     public function setLastName($last_name): self {
         $this->lastName = $last_name;
 
         return $this;
-
     }
 
     public function getLastName() {
         return $this->lastName;
-
     }
 
     public function getFullName() {
         return $this->getFirtName() . ' ' . $this->getLastName();
-
     }
-    
-    
+
+    /**
+     * @return Collection|ContactConversation[]
+     */
+    public function getContactConversations(): Collection {
+        return $this->contactConversations;
+    }
+
+    public function addContactConversation(ContactConversation $contactConversation): self {
+        if (!$this->contactConversations->contains($contactConversation)) {
+            $this->contactConversations[] = $contactConversation;
+            $contactConversation->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactConversation(ContactConversation $contactConversation): self {
+        if ($this->contactConversations->contains($contactConversation)) {
+            $this->contactConversations->removeElement($contactConversation);
+            $contactConversation->removeMember($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ContactMessage[]
+     */
+    public function getContactMessages(): Collection {
+        return $this->contactMessages;
+    }
+
+    public function addContactMessage(ContactMessage $contactMessage): self {
+        if (!$this->contactMessages->contains($contactMessage)) {
+            $this->contactMessages[] = $contactMessage;
+            $contactMessage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactMessage(ContactMessage $contactMessage): self {
+        if ($this->contactMessages->contains($contactMessage)) {
+            $this->contactMessages->removeElement($contactMessage);
+            // set the owning side to null (unless already changed)
+            if ($contactMessage->getUser() === $this) {
+                $contactMessage->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * role_hierarchy:
+     *    ROLE_EDITOR:      ROLE_USER   
+     *    ROLE_ADMIN:       ROLE_USER
+     *    ROLE_SUPER_ADMIN: ROLE_ADMIN 
+     */
+    public function getPrettyRoles() {
+
+        $admin = "";
+        if (!$this->isSuperAdmin() && $this->hasRole(static::ROLE_ADMIN)) {
+            return 'roles.admin';
+        } else if ($this->isSuperAdmin()) {
+            return 'roles.super.admin';
+        } elseif ($this->hasRole(static::ROLE_EDITOR)) {
+            return 'roles.editor';
+        }
+
+        return 'roles.user';
+    }
+
     /**
      * Represents a string representation.
      *
@@ -204,7 +280,6 @@ class User extends BaseUser implements ParticipantInterface{
      */
     public function __toString() {
         return $this->getFullName() ?: $this->getUsername();
-
     }
 
 }

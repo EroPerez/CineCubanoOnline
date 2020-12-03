@@ -20,7 +20,14 @@ Encore
             from: './assets/fonts/',
             to: 'fonts/[path][name].[ext]'
         })
+        .copyFiles({
+            from: './assets/js/vue/',
+            to: 'js/[name].[ext]'
+        })
         .addEntry('js/app', './assets/js/app.js')
-        .addStyleEntry('css/app', ['./assets/scss/app.scss']);
+        .addStyleEntry('css/app', ['./assets/scss/app.scss'])
+//        .enableVueLoader(() => {}, { runtimeCompilerBuild: false })
+        .enableSingleRuntimeChunk()
+        ;
 
 module.exports = Encore.getWebpackConfig();

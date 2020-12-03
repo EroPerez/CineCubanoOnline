@@ -39,7 +39,9 @@
         "symfony/web-link": "^4.3",
         "symfony/webpack-encore-bundle": "*",
         "symfony/yaml": "^4.3",
-        "vich/uploader-bundle": "^1.15"
+        "vich/uploader-bundle": "^1.15",
+        "cboden/ratchet": "^0.4.1",
+        "nesbot/carbon": "^2.17"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",

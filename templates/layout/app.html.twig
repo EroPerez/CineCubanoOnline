@@ -1,7 +1,8 @@
 {% import 'macros.html.twig' as macros %}
 {% trans_default_domain "app" %} 
 <!doctype html>
-<html lang="en">
+{% set locale = app.request.get('_locale') %}
+<html lang="{{locale}}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,9 +13,11 @@
         <!-- Icons -->
         <link rel="shortcut icon" href="{{ asset('build/images/favicon.png')}}" type="image/x-icon">
         <link rel="apple-touch-icon" href="{{ asset('build/images/apple-touch-icon.png')}}">
-        <link rel="stylesheet" href="{{ asset('build/css/materialdesignicons/materialdesignicons.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
-        {% block stylesheets %}{% endblock %}
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('build/css/materialdesignicons/materialdesignicons.min.css') }}">
+            {{ encore_entry_link_tags('css/app') }}
+        {% endblock %}
     </head>
     <body>
         <header class="cco-header">
@@ -29,14 +32,17 @@
         {% block body %}
 
         {% endblock %}
+        {% block chat_contact %}
+        {% endblock %}
         <!--[ Footer section ] -->
         <footer class="cco-footer text-muted">
             {% block footer %}
                 {% include 'layout/footer-content.html.twig' %}
             {% endblock %}
-        </footer> 
+        </footer>              
 
-        {% block javascripts %}{% endblock %}        
-        <script src="{{ asset('build/js/app.js') }}"></script>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('js/app') }}
+        {% endblock %}   
     </body>
 </html>

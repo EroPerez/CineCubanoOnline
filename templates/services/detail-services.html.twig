@@ -1,5 +1,8 @@
 {% extends 'layout/app.html.twig' %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/css/chat.css') }}">
+{% endblock %}
 {% block body %}
 
     <main class="cco-main-content" role="main">
@@ -13,14 +16,135 @@
                             {{service.company}}
                             <a href="#"><small>{{'Contact'|trans }}</small></a>
                         </h4>
-                        <a href="#" class="cco-service-category badge badge-secondary d-flex align-items-center badge-pill px-1 align-self-start">{{service.category}}</a>
+                        <a href="{{ path('explore_services') }}?filter[eq][category_id]={{service.category.id}}&order[service_created_at]=desc" class="cco-service-category badge badge-secondary d-flex align-items-center badge-pill px-1 align-self-start">{{service.category}}</a>
                     </div>
                     <p class="lead cco-service-description px-0 px-md-3 px-lg-4 text-justify">
-                      {{service.description|striptags}}  
+                        {{service.description|striptags}}  
                     </p>
                     <a href="#" role="button" class="btn btn-success btn-raised cco-btn-rounded">{{ 'Contract service'|trans }}</a>
                 </div>
             </div>
         </section>
     </main>                 
+{% endblock %}
+
+{% block chat_contact %}
+    {% if is_granted('ROLE_USER') %}
+        <div id="contactChat">
+            <div class="chat hide" id="chat">
+                <div id="conversations">
+                    <div class="chat-head">
+                        <div class="hello">
+                            <h1>{{'dashboard.contactChat.hello.h1'|trans({'%username%': app.user.fullname},'app')|trim|raw}}</h1>
+                            <p>{{'dashboard.contactChat.hello.p'|trans({},'app')|trim|raw}}</p>
+                        </div>
+                    </div>
+                    <div class="chat-body">
+                        <div class="content" id="triple-apoyo">
+                            <h2>{{'dashboard.contactChat.triple-apoyo.h2'|trans({},'app')|trim|raw}}</h2>
+                            <p>{{'dashboard.contactChat.triple-apoyo.p'|trans({},'app')|trim|raw}}</p>
+                            <div class="members">
+                                {% set user =  service.company.owner%}
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h5>{{ user.prettyroles|trans|upper }}</h5>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <img v-on:click="activeUser('{{ user.id }}')" class="img-circle rounded-circle" src="{{ asset(user.avatarPath) }}" alt="{{ user.fullname }}" title="{{ user.fullname }}">
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <h5>{{ user.fullname }}</h5>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="content p-0">
+                            <div class="loading" v-if="conversations.length == 0">
+                                <div class="spinner">
+                                    <div class="blob top"></div>
+                                    <div class="blob bottom"></div>
+                                    <div class="blob left"></div>
+
+                                    <div class="blob move-blob"></div>
+                                </div>
+                            </div>
+                            <div class="conversation" v-for="conversation in conversations" v-on:click="active(conversation)">
+                                <div class="unseen" v-if="conversation.unseen > 0">
+                                    <div>{ conversation.unseen }</div>
+                                </div>
+                                <img :src="conversation.member.avatarPath" alt="AVT" onerror="this.src = '{{ asset('uploads/user/avatar/avatar0.png') }}'">
+                                <div class="chat-message">
+                                    <div class="member">
+                                        <div>{ conversation.member.name }</div>
+                                        <div>{ conversation.last_time }</div>
+                                    </div>
+                                    <div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 220px;">{
+                                        conversation.last_message }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="conversation">
+                    <div class="chat-head" v-if="activeConversation">
+                        <a href="javascript:;" v-on:click="back()">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <img :src="activeConversation.member.avatarPath" alt="AVT" class="rounded-circle" onerror="this.src = '{{ asset('uploads/user/avatar/avatar0.png') }}'">
+                        {
+                        activeConversation.member.name }
+                    </div>
+                    <div class="chat-body msgs">
+                        <div class="loading" v-if="load">
+                            <div class="spinner">
+                                <div class="blob top"></div>
+                                <div class="blob bottom"></div>
+                                <div class="blob left"></div>
+                                <div class="blob move-blob"></div>
+                            </div>
+                        </div>
+                        <div v-for="(message, index) in messages">
+                            <div class="time" v-if="index == 0 || messages[index - 1].date != message.date">{ message.date }</div>
+                            <div class="message" v-bind:class="{ 'out' : message.out }">
+                                <img :src="activeConversation.member.avatarPath" alt="AVT" onerror="this.src = '{{ asset('uploads/user/avatar/avatar0.png') }}'" v-if="activeConversation"/>
+                                <div>{ message.msg }</div>
+                                <i class="fa fa-clock-o" v-if="message.sending"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-footer" id="send-message">
+                        <textarea :disabled="load" id="msg" placeholder="..." v-on:keyup.enter="send()"></textarea>
+                        <button id="btn-send-chat-msg" v-on:click="send()">
+                            <i class="fa fa-send text-success"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="global-unseen" v-if="unseen > 0">
+                <i class="fa fa-bell"></i>
+            </div>
+            <div class="chat-btn">
+                <div id="fast-help-chat"></div>
+                <svg id="open" viewbox="0 0 28 32">
+                <path d="M28,32 C28,32 23.2863266,30.1450667 19.4727818,28.6592 L3.43749107,28.6592 C1.53921989,28.6592 0,27.0272 0,25.0144 L0,3.6448 C0,1.632 1.53921989,0 3.43749107,0 L24.5615088,0 C26.45978,0 27.9989999,1.632 27.9989999,3.6448 L27.9989999,22.0490667 L28,22.0490667 L28,32 Z M23.8614088,20.0181333 C23.5309223,19.6105242 22.9540812,19.5633836 22.5692242,19.9125333 C22.5392199,19.9392 19.5537934,22.5941333 13.9989999,22.5941333 C8.51321617,22.5941333 5.48178311,19.9584 5.4277754,19.9104 C5.04295119,19.5629428 4.46760991,19.6105095 4.13759108,20.0170667 C3.97913051,20.2124916 3.9004494,20.4673395 3.91904357,20.7249415 C3.93763774,20.9825435 4.05196575,21.2215447 4.23660523,21.3888 C4.37862552,21.5168 7.77411059,24.5386667 13.9989999,24.5386667 C20.2248893,24.5386667 23.6203743,21.5168 23.7623946,21.3888 C23.9467342,21.2215726 24.0608642,20.9827905 24.0794539,20.7254507 C24.0980436,20.4681109 24.0195551,20.2135019 23.8614088,20.0181333 Z"></path>
+                </svg>
+                <svg class="hide" height="14" id="close" width="14">
+                <path d="M13.978 12.637l-1.341 1.341L6.989 8.33l-5.648 5.648L0 12.637l5.648-5.648L0 1.341 1.341 0l5.648 5.648L12.637 0l1.341 1.341L8.33 6.989l5.648 5.648z" fill-rule="evenodd"></path>
+                </svg>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% if is_granted('ROLE_USER')%}
+        <script src="{{ asset('build/js/vue.js') }}"></script>
+        <script src="{{ asset('build/js/vue-resource.min.js') }}"></script>
+
+        <script>
+            window.user_id = '{{ app.user.id }}';
+        </script>
+        <script src="{{ asset('build/js/chat.js')}}"></script>
+    {% endif %}
 {% endblock %}
