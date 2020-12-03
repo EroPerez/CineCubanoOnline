@@ -5,7 +5,7 @@ fos_user:
     group:
         group_class: App\Entity\Group
     from_email:
-        address: "noreplay@cinecubano.online"
+        address: "admin@cinecubano.online"
         sender_name: "Cine Cubano Online"
         
     service:

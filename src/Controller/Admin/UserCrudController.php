@@ -39,7 +39,7 @@ class UserCrudController extends AbstractCrudController {
     public function configureFields(string $pageName): iterable {
         return [
             AvatarField::new('avatarPath', 'Avatar')->onlyOnIndex()->onlyOnDetail(),
-            TextField::new('firstName', 'FirstName')->onlyOnForms(),
+            TextField::new('firtName', 'FirstName')->onlyOnForms(),
             TextField::new('lastName', 'LastName')->onlyOnForms(),
             TextField::new('fullName', 'FullName')->onlyOnIndex()->onlyOnDetail(),
             TextField::new('username', 'Username'),
