@@ -71,12 +71,12 @@ class Service implements TranslatableInterface {
 
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
-//
-//    public function __get($name) {
-//        $method = 'get' . ucfirst($name);
-//        $arguments = [];
-//        return $this->proxyCurrentLocaleTranslation($method, $arguments);
-//    }    
+
+    public function __get($name) {
+        $method = 'get' . ucfirst($name);
+        $arguments = [];
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }    
     
 
     /**
