@@ -19,7 +19,6 @@ use App\Component\Core\Model\TimestampableTrait;
  * @ORM\Table(
  *      name="manage_company"
  * )
- * @Assert\Callback(methods={"validate"})
  */
 class Company
 {

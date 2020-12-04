@@ -67,7 +67,7 @@ class Service implements TranslatableInterface {
     }
 
     public function __call($method, $arguments) {
-//        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get' . ucfirst($method);
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get' . ucfirst($method);
 
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
