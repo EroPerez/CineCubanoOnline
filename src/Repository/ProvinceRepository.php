@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Component\Province\Repository;
+namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Province;
 
-use App\Component\Province\Model\Province;
 
 /**
  * Description of ProvinceRepository

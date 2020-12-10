@@ -5,3 +5,18 @@ index:
 dashboard:
     path: /{_locale}/admin
     controller: App\Controller\Admin\DashboardController::index
+    
+lexik_translation_overview:
+    path:     /{_locale}/translation
+    controller: App\Controller\Admin\TranslationController:overviewAction
+    methods:  [GET]
+
+lexik_translation_grid:
+    path:     /{_locale}/translation/grid
+    controller: App\Controller\Admin\TranslationController:gridAction
+    methods:  [GET]
+
+lexik_translation_new:
+    path:     /{_locale}/translation/new
+    controller: App\Controller\Admin\TranslationController:newAction
+    methods:  [GET, POST]

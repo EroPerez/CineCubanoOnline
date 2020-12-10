@@ -58,3 +58,8 @@ services:
         public: true
         arguments: 
           - '@doctrine.orm.entity_manager'
+    
+    app.form.registration:
+        class: App\Form\RegistrationFormType
+        tags:
+            - { name: form.type, alias: app_user_registration }

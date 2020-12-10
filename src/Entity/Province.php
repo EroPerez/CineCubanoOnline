@@ -1,38 +1,67 @@
 <?php
 
+
 declare(strict_types=1);
 
-namespace App\Component\Province\Model;
+namespace App\Entity;
 
 use App\Component\Core\Model\TimestampableTrait;
+use App\Repository\ProvinceRepository;
 use App\Entity\Company;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ramsey\Uuid\UuidInterface;
+use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * Description of Province
  *
  * @author Michel
+
+ * @ORM\Entity(repositoryClass=ProvinceRepository::class)
+ * @ORM\Table(
+ *      name="core_province"
+ * )
  */
 class Province implements ProvinceInterface 
 {
 
     use TimestampableTrait;
-
+   
     /**
-     * @var string
+     * @var \Ramsey\Uuid\UuidInterface
+     *
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
 
-    /**
-     * @var string
+   /**
+     * @ORM\Column(type="string", length=25, nullable=false)
      */
     private $name;
 
     /**
-     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity=Company::class, mappedBy="province", orphanRemoval=true, cascade={"all"})
      */
     private $companies;
+    
+    
+    /**
+     * @var \DateTimeInterface
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTimeInterface|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updatedAt;
+    
 
     public function __construct()
     {
@@ -42,7 +71,7 @@ class Province implements ProvinceInterface
     /**
      * {@inheritdoc}
      */
-    public function getId(): ?string {
+    public function getId(): ?UuidInterface {
         return $this->id;
 
     }

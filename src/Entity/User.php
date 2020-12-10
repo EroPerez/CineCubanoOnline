@@ -109,6 +109,13 @@ class User extends BaseUser implements ParticipantInterface {
     }
 
     /**
+     * @return \Ramsey\Uuid\UuidInterface
+     */
+    public function getId(): ?\Ramsey\Uuid\UuidInterface {
+        return $this->id;
+    }
+
+    /**
      * @return Collection|Company[]
      */
     public function getCompanies(): Collection {

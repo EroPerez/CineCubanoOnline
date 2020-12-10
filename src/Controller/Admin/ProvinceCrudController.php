@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Component\Province\Model\Province;
+use App\Entity\Province;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;

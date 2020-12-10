@@ -111,13 +111,20 @@ class ContactConversation {
         return $unseen->count();
     }
 
-    public function getReciverMember(int $id): User {
+    /**
+     * @paraam id \Ramsey\Uuid\UuidInterface
+     */
+    public function getReciverMember(\Ramsey\Uuid\UuidInterface $id): ?User {
         $criteria = Criteria::create()->where(Criteria::expr()->neq('id', $id));
         $user = $this->members->matching($criteria);
-        return $user->first();
+
+        return !$user->first() ? null : $user->first();
     }
 
-    public function inConversation(int $id): bool {
+    /**
+     * @paraam id \Ramsey\Uuid\UuidInterface
+     */
+    public function inConversation(\Ramsey\Uuid\UuidInterface $id): bool {
         $criteria = Criteria::create()->where(Criteria::expr()->eq('id', $id));
         $user = $this->members->matching($criteria);
         return $user->count() == 1;

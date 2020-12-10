@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Province\Model;
+namespace App\Entity;
 
 use Ramsey\Uuid\UuidInterface;
 
@@ -13,7 +13,7 @@ use Ramsey\Uuid\UuidInterface;
 interface ProvinceInterface 
 {
 
-    public function getId(): ?string;
+    public function getId(): ?UuidInterface;
 
     public function setName(string $name): void;
 

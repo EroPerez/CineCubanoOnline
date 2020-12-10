@@ -16,7 +16,7 @@ $(document).ready(function () {
             messages: [],
             lastId: -1,
             activeConversation: null,
-            load: true
+            load: true           
         },
         computed: {
             unseen: function () {
@@ -31,8 +31,9 @@ $(document).ready(function () {
         },
         methods: {
             refreshMessagees: function () {
+                
                 if (this.activeConversation) {
-                    this.$http.post('/chat/conversation/' + this.activeConversation.id + '/refresh', {
+                    this.$http.post('/' + locale + '/chat/conversation/' + this.activeConversation.id + '/refresh', {
                         number: this.lastId
                     }).then(function (resp) {
                         for (var i = 0; i < resp.data.length; i++) {
@@ -43,8 +44,8 @@ $(document).ready(function () {
                     });
                 }
             },
-            loadConversations: function () {
-                this.$http.get('/chat/conversation').then(function (resp) {
+            loadConversations: function () {                
+                this.$http.get('/' + locale + '/chat/conversation').then(function (resp) {
                     this.conversations = resp.data;
                 });
             },
@@ -62,7 +63,7 @@ $(document).ready(function () {
                         var height = wtf[0].scrollHeight;
                         wtf.scrollTop(height);
                     });
-                    this.$http.post('/chat/conversation/' + this.activeConversation.id + '/send', {
+                    this.$http.post('/' + locale + '/chat/conversation/' + this.activeConversation.id + '/send', {
                         msg: msg,
                         number: this.messages.length - 1
                     }).then(function (resp) {
@@ -78,7 +79,7 @@ $(document).ready(function () {
                 }
             },
             activeUser: function (user_id) {
-                this.$http.post('/chat/conversation/create', {
+                this.$http.post('/' + locale + '/chat/conversation/create', {
                     user: user_id
                 }).then(function (resp) {
                     this.conversations.push(resp.data);
@@ -93,7 +94,7 @@ $(document).ready(function () {
                 $('#chat').addClass('o-h');
                 $('#conversations').hide(100);
                 this.messages = [];
-                this.$http.get('/chat/conversation/' + conversation.id).then(function (resp) {
+                this.$http.get('/' + locale + '/chat/conversation/' + conversation.id).then(function (resp) {
                     this.messages = resp.data;
                     if (resp.data.length > 0) {
                         this.lastId = resp.data[resp.data.length - 1].id;
@@ -162,7 +163,7 @@ $(document).ready(function () {
         var data = JSON.parse(e.data);
         if (chatApp.activeConversation && chatApp.activeConversation.id === data.conversation_id) {
             chatApp.messages.push(data.message);
-            chatApp.$http.post('/chat/seen/' + data.message.id);
+            chatApp.$http.post('/' + locale + '/chat/seen/' + data.message.id);
             setTimeout(function () {
                 var wtf = $('#conversation .chat-body');
                 var height = wtf[0].scrollHeight;

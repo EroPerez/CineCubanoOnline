@@ -14,7 +14,7 @@
                         <h2 class="cco-header-section font-weight-light text-left mb-2 text-uppercase">{{service.title}}</h2>
                         <h4 class="cco-service-enterprise text-muted font-weight-light">
                             {{service.company}}
-                            <a href="#"><small>{{'Contact'|trans }}</small></a>
+                            <a id="open-chat" href="javascript:void(0)"><small>{{'Contact'|trans }}</small></a>
                         </h4>
                         <a href="{{ path('explore_services') }}?filter[eq][category_id]={{service.category.id}}&order[service_created_at]=desc" class="cco-service-category badge badge-secondary d-flex align-items-center badge-pill px-1 align-self-start">{{service.category}}</a>
                     </div>
@@ -35,14 +35,14 @@
                 <div id="conversations">
                     <div class="chat-head">
                         <div class="hello">
-                            <h1>{{'dashboard.contactChat.hello.h1'|trans({'%username%': app.user.fullname},'app')|trim|raw}}</h1>
-                            <p>{{'dashboard.contactChat.hello.p'|trans({},'app')|trim|raw}}</p>
+                            <h1>{{'chat.contact.hello'|trans({'%username%': app.user.fullname})|trim|raw}}</h1>
+                            <p>{{'chat.contact.presentation'|trans|trim|raw}}</p>
                         </div>
                     </div>
                     <div class="chat-body">
                         <div class="content" id="triple-apoyo">
-                            <h2>{{'dashboard.contactChat.triple-apoyo.h2'|trans({},'app')|trim|raw}}</h2>
-                            <p>{{'dashboard.contactChat.triple-apoyo.p'|trans({},'app')|trim|raw}}</p>
+                            <h2>{{'chat.contact.begin.conversation'|trans|trim|raw}}</h2>
+
                             <div class="members">
                                 {% set user =  service.company.owner%}
                                 <div class="row">
@@ -72,14 +72,14 @@
                                 <div class="unseen" v-if="conversation.unseen > 0">
                                     <div>{ conversation.unseen }</div>
                                 </div>
-                                <img :src="conversation.member.avatarPath" alt="AVT" onerror="this.src = '{{ asset('uploads/user/avatar/avatar0.png') }}'">
+                                <img :src="conversation.member.avatar" alt="AVT" onerror="this.src = '{{ asset('uploads/user/avatar/avatar0.png') }}'">
                                 <div class="chat-message">
                                     <div class="member">
                                         <div>{ conversation.member.name }</div>
                                         <div>{ conversation.last_time }</div>
                                     </div>
-                                    <div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 220px;">{
-                                        conversation.last_message }
+                                    <div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 220px;">
+                                        {conversation.last_message }
                                     </div>
                                 </div>
                             </div>
@@ -91,9 +91,8 @@
                         <a href="javascript:;" v-on:click="back()">
                             <i class="fa fa-arrow-left"></i>
                         </a>
-                        <img :src="activeConversation.member.avatarPath" alt="AVT" class="rounded-circle" onerror="this.src = '{{ asset('uploads/user/avatar/avatar0.png') }}'">
-                        {
-                        activeConversation.member.name }
+                        <img :src="activeConversation.member.avatar" alt="AVT" class="rounded-circle" onerror="this.src = '{{ asset('uploads/user/avatar/avatar0.png') }}'">
+                        {activeConversation.member.name }
                     </div>
                     <div class="chat-body msgs">
                         <div class="loading" v-if="load">
@@ -107,7 +106,7 @@
                         <div v-for="(message, index) in messages">
                             <div class="time" v-if="index == 0 || messages[index - 1].date != message.date">{ message.date }</div>
                             <div class="message" v-bind:class="{ 'out' : message.out }">
-                                <img :src="activeConversation.member.avatarPath" alt="AVT" onerror="this.src = '{{ asset('uploads/user/avatar/avatar0.png') }}'" v-if="activeConversation"/>
+                                <img :src="activeConversation.member.avatar" alt="AVT" onerror="this.src = '{{ asset('uploads/user/avatar/avatar0.png') }}'" v-if="activeConversation"/>
                                 <div>{ message.msg }</div>
                                 <i class="fa fa-clock-o" v-if="message.sending"></i>
                             </div>
@@ -116,7 +115,7 @@
                     <div class="chat-footer" id="send-message">
                         <textarea :disabled="load" id="msg" placeholder="..." v-on:keyup.enter="send()"></textarea>
                         <button id="btn-send-chat-msg" v-on:click="send()">
-                            <i class="fa fa-send text-success"></i>
+                            <i class="mdi mdi-send text-success"></i>
                         </button>
                     </div>
                 </div>
@@ -140,10 +139,16 @@
     {{ parent() }}
     {% if is_granted('ROLE_USER')%}
         <script src="{{ asset('build/js/vue.js') }}"></script>
-        <script src="{{ asset('build/js/vue-resource.min.js') }}"></script>
-
+        <script src="{{ asset('build/js/vue-resource.min.js') }}"></script> 
         <script>
             window.user_id = '{{ app.user.id }}';
+            window.locale = '{{locale}}';
+            $(function () {
+                $('#open-chat').bind('click', function (e) {
+                    e.preventDefault();
+                    $('div.chat-btn').click();
+                });
+            });
         </script>
         <script src="{{ asset('build/js/chat.js')}}"></script>
     {% endif %}

@@ -1,3 +1,4 @@
 lexik_translation:
     fallback_locale: [en]         # (required) default locale(s) to use
     managed_locales: [en, es] # (required) locales that the bundle has to manage
+    base_layout: "translation/layout.html.twig"

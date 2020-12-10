@@ -1,6 +1,6 @@
 swiftmailer:
     url: '%env(MAILER_URL)%'
-    # spool: { type: 'memory' }
+    spool: { type: 'memory' }
     stream_options:
         ssl:
             allow_self_signed: true

@@ -11,10 +11,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AvatarField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use App\Admin\Field\VichImageField;
+
 
 class CompanyCrudController extends AbstractCrudController {
 
@@ -39,8 +41,9 @@ class CompanyCrudController extends AbstractCrudController {
             TextField::new('inscription_number', 'InscriptionNumber'),
             TextField::new('address', 'Address')->onlyOnDetail()->onlyOnForms(),
             TelephoneField::new('phone', 'Phone')->onlyOnForms(),
-            ImageField::new('logoUrl', 'Logo')->onlyOnDetail(),
+            AvatarField::new('logoUrl', 'Logo')->onlyOnDetail(),
             VichImageField::new('logoFile', 'Logo')->onlyOnForms(),
+            UrlField::new('videoUrl', 'Trailer URL')->hideOnIndex(),
             AssociationField::new('province', 'Province'),
             AssociationField::new('owner', 'Owner')->onlyOnIndex()->onlyOnDetail(),
             DateTimeField::new('createdAt', 'CreatedAt')->hideOnForm()->onlyOnDetail(),

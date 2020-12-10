@@ -46,11 +46,6 @@ doctrine:
                 type: yml
                 dir: '%kernel.project_dir%/src/Component/Shipment/config/doctrine'
                 prefix: 'App\Component\Shipment\Model'
-            App\Component\Province\Model:
-                is_bundle: false
-                type: yml
-                dir: '%kernel.project_dir%/src/Component/Province/config/doctrine'
-                prefix: App\Component\Province\Model  
             App:
                 is_bundle: false
                 type: annotation

@@ -57,21 +57,42 @@
     <div class="container d-flex align-items-center justify-content-between">
         <div class="cco-copy text-muted">&copy; Copyright - {{ 'now'|date('Y') }} - CineCubano Online</div>
         <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="mdi mdi-facebook"></span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="mdi mdi-twitter"></span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="mdi mdi-instagram"></span>
-                </a>
-            </li>
+            {% if variable_get('SOCIAL_ACCOUNT_FACEBOOK') %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.facebook.com/{{ 'SOCIAL_ACCOUNT_FACEBOOK'|variable_get }}/">
+                        <span class="mdi mdi-facebook"></span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if variable_get('SOCIAL_ACCOUNT_TWITTER') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="https://twitter.com/{{ 'SOCIAL_ACCOUNT_TWITTER'|variable_get }}?lang=es">
+                        <span class="mdi mdi-twitter"></span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if variable_get('SOCIAL_ACCOUNT_INSTAGRAM') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.instagram.com/?hl={{ 'SOCIAL_ACCOUNT_INSTAGRAM'|variable_get }}">
+                        <span class="mdi mdi-instagram"></span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if variable_get('SOCIAL_ACCOUNT_YOUTUBE') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.youtube.com/channel/{{ 'SOCIAL_ACCOUNT_YOUTUBE'|variable_get }}?view_as=subscriber">
+                        <span class="mdi mdi-youtube"></span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if variable_get('SOCIAL_ACCOUNT_LINKEDIN') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.linkedin.com/{{ 'SOCIAL_ACCOUNT_LINKEDIN'|variable_get }}">
+                        <span class="mdi mdi-linkedin"></span>
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </div>

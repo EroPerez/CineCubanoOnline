@@ -38,10 +38,10 @@ class UserCrudController extends AbstractCrudController {
 
     public function configureFields(string $pageName): iterable {
         return [
-            AvatarField::new('avatarPath', 'Avatar')->onlyOnIndex()->onlyOnDetail(),
+            AvatarField::new('avatarPath', 'Avatar')->hideOnForm(),
             TextField::new('firtName', 'FirstName')->onlyOnForms(),
             TextField::new('lastName', 'LastName')->onlyOnForms(),
-            TextField::new('fullName', 'FullName')->onlyOnIndex()->onlyOnDetail(),
+            TextField::new('fullName', 'FullName')->hideOnForm(),
             TextField::new('username', 'Username'),
             TextField::new('plainPassword', 'Password')
                     ->onlyOnForms()
@@ -51,8 +51,8 @@ class UserCrudController extends AbstractCrudController {
                     ->allowMultipleChoices()
                     ->renderAsBadges()
                     ->setChoices(['roles.user' => 'ROLE_USER', 'roles.admin' => 'ROLE_ADMIN', 'roles.super.admin' => 'ROLE_SUPER_ADMIN', 'roles.editor' => 'ROLE_EDITOR']),            
-            DateTimeField::new('createdAt', 'CreatedAt')->hideOnForm()->onlyOnDetail(),
-            DateTimeField::new('updatedAt', 'UpdatedAt')->hideOnForm()->onlyOnDetail(),
+            DateTimeField::new('createdAt', 'CreatedAt')->onlyOnDetail(),
+            DateTimeField::new('updatedAt', 'UpdatedAt')->onlyOnDetail(),
             DateTimeField::new('lastLogin', 'LastLogin')->hideOnForm(),
             BooleanField::new('enabled', 'Enabled?'),
             BooleanField::new('superAdmin', 'SuperAdmin?'),

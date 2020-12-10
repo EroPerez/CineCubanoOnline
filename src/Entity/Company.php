@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Component\Province\Model\Province;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -66,7 +65,7 @@ class Company
 
     /**
      * @ORM\ManyToOne(targetEntity=Province::class, inversedBy="companies")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $province;   
 
@@ -114,17 +113,8 @@ class Company
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var string
      */
-    private $video = null;
+    private $videoUrl = null;
 
-    /**
-     * @Assert\File(
-     *          maxSize="10M",
-     *          mimeTypes={"video/mp4", "video/avi"}
-     * )
-     * @Vich\UploadableField(mapping="company_video", fileNameProperty="video")
-     * @var File $videoFile
-     */
-    private $videoFile;
 
     public function __construct()
     {
@@ -262,7 +252,7 @@ class Company
         if ($this->hasFile()) {
             return (string) ("/uploads/company/logo/" . $this->getLogo());
         }
-        return "/uploads/company/logo/logo0.png";
+        return "/uploads/company/logo/logo0.jpg";
 
     }
 
@@ -306,44 +296,15 @@ class Company
     }
     
     
-    public function setVideoFile(File $video = null) {
-        $this->videoFile = $video;
+   
 
-        // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        if ($video) {
-            $this->updatedAt = new \DateTime('now');
-        }
-    }
-
-    public function getVideoFile() {
-        return $this->videoFile;
-    }
-    
-    public function hasVFile(): bool {
-        return null !== $this->videoFile;
-
-    }
-
-    /**
-     * @return string
-     */
-    public function getVideoUrl(): string {
-        if ($this->hasVFile()) {
-            return (string) ("/uploads/company/video/" . $this->getVideo());
-        }
-        return "/uploads/company/video/video0.mp4";
-
-    }
-
-    public function seVideo($aVideo): self {
-        $this->video = $aVideo;
+    public function setVideoUrl($aVideo): self {
+        $this->videoUrl = $aVideo;
         return $this;
     }
 
-    public function getVideo(): ?string {
-        return $this->video;
+    public function getVideoUrl(): ?string {
+        return $this->videoUrl;
     }
     
     /**

@@ -40,3 +40,4 @@ security:
         - { path: ^/[a-z][a-z]/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/[a-z][a-z]/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/[a-z][a-z]/admin, role: ROLE_USER }
+        - { path: ^/[a-z][a-z]/translation/*, role: ROLE_ADMIN }

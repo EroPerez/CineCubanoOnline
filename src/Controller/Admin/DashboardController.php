@@ -25,7 +25,6 @@ class DashboardController extends AbstractDashboardController {
 
     public function __construct(UserManagerInterface $um) {
         $this->userManager = $um;
-
     }
 
     /**
@@ -37,22 +36,20 @@ class DashboardController extends AbstractDashboardController {
         }
 
         return $this->redirectToRoute('fos_user_security_login');
-
     }
 
     public function configureDashboard(): Dashboard {
         return Dashboard::new()
-            // the name visible to end users
-            // you can include HTML contents too (e.g. to link to an image)
-            ->setTitle('<img src="/build/images/favicon.png"> CineCubano <span class="text-small">Online</span>')
+                        // the name visible to end users
+                        // you can include HTML contents too (e.g. to link to an image)
+                        ->setTitle('<img src="/build/images/favicon.png"> CineCubano <span class="text-small">Online</span>')
 
-            // the path defined in this method is passed to the Twig asset() function
-            ->setFaviconPath('/build/images/favicon.png')
+                        // the path defined in this method is passed to the Twig asset() function
+                        ->setFaviconPath('/build/images/favicon.png')
 
         // the domain used by default is 'messages'
         // ->setTranslationDomain('app')
         ;
-
     }
 
     public function configureMenuItems(): iterable {
@@ -61,28 +58,28 @@ class DashboardController extends AbstractDashboardController {
         if ($this->isGranted('ROLE_ADMIN')) {
 
             yield MenuItem::section('admin.menu.configuration', 'fa fa-cogs');
-            yield MenuItem::linkToCrud('admin.menu.province', 'fa fa-map', \App\Component\Province\Model\Province::class);
+            yield MenuItem::linktoRoute('admin.menu.translations', 'fa fa-language', 'lexik_translation_overview');
+            yield MenuItem::linkToCrud('admin.menu.varible', 'fa fa-gear', \App\Entity\Configuration::class);
+            yield MenuItem::linkToCrud('admin.menu.province', 'fa fa-map', \App\Entity\Province::class);
             yield MenuItem::linkToCrud('admin.menu.service', 'fa fa-tags', \App\Entity\Service::class);
 
 
             yield MenuItem::section('admin.menu.security', 'fa fa-lock');
             yield MenuItem::linkToCrud('admin.menu.user', 'fa fa-user', \App\Entity\User::class);
         }
-        
-        
+
+
         yield MenuItem::section('admin.menu.general', 'fa fa-folder')->setPermission('ROLE_USER');
         yield MenuItem::linkToCrud('admin.menu.company', 'fa fa-video-camera', \App\Entity\Company::class)
-            ->setPermission('ROLE_USER');
-
+                        ->setPermission('ROLE_USER');
     }
 
     public function configureCrud(): Crud {
         return Crud::new()
-            // this defines the pagination size for all CRUD controllers
-            // (each CRUD controller can override this value if needed)
-            ->setPaginatorPageSize(10)
+                        // this defines the pagination size for all CRUD controllers
+                        // (each CRUD controller can override this value if needed)
+                        ->setPaginatorPageSize(10)
         ;
-
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu {
@@ -91,24 +88,23 @@ class DashboardController extends AbstractDashboardController {
         // user menu with some menu items already created ("sign out", "exit impersonation", etc.)
         // if you prefer to create the user menu from scratch, use: return UserMenu::new()->...
         return parent::configureUserMenu($user)
-            // use the given $user object to get the user name
-            ->setName($fos_user->getFullName())
-            // use this method if you don't want to display the name of the user
-            ->displayUserName(false)
+                        // use the given $user object to get the user name
+                        ->setName($fos_user->getFullName())
+                        // use this method if you don't want to display the name of the user
+                        ->displayUserName(false)
 
-            // you can return an URL with the avatar image           
-            ->setAvatarUrl($fos_user->getAvatarPath())
-            // use this method if you don't want to display the user image
+                        // you can return an URL with the avatar image           
+                        ->setAvatarUrl($fos_user->getAvatarPath())
+                        // use this method if you don't want to display the user image
 //            ->displayUserAvatar(false)
-            // you can also pass an email address to use gravatar's service
+                        // you can also pass an email address to use gravatar's service
 //            ->setGravatarEmail($fos_user->getEmail())
-            // you can use any type of menu item, except submenus
-            ->addMenuItems([
-//                MenuItem::linkToRoute('My Profile', 'fa fa-id-card'),
-//                MenuItem::linkToRoute('Settings', 'fa fa-user-cog']),
-              MenuItem::section()
+                        // you can use any type of menu item, except submenus
+                        ->addMenuItems([
+                            MenuItem::linkToRoute('My Profile', 'fa fa-id-card', 'fos_user_profile_show'),
+                            MenuItem::linkToRoute('Change Password', 'fa fa-exchange', 'fos_user_change_password'),
+                            MenuItem::section()
         ]);
-
     }
 
 }

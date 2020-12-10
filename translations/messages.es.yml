@@ -31,7 +31,7 @@ app:
                 product: Productos
                 price: Precio
         intro:
-            message: Español- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur voluptatibus at praesentium quae voluptatem! Incidunt adipisci dicta ipsa, commodi deleniti quas!
+            message: Facilitamos una herramienta dinámica para visualizarse y conectarse entre todos los creadores audiovisuales. Muestra tus talentos y encuentra los servicios que necesitas para hacer tu película.
             services: Servicios recientes
             articles: Post recientes
     cart:
@@ -97,6 +97,8 @@ admin:
         user: Usuarios
         company: Empresas
         general: Gestionar
+        varible: Variables
+        translations: Traducciones
 
 
 # entity names, labels and titles
@@ -115,7 +117,9 @@ Product: Producto
 Article: Artículo
 Articles: Artículos
 Service: Servicio
-Services: Servicios
+Services: Eslabón audiovisual
+System Variable: Variable de sistema
+Systems Variable: Variables de sistema
 
 # Labels
 form.label.delete: Eliminar?
@@ -151,6 +155,9 @@ Logo: Logo
 Owner: Propietario
 Description: Descripción
 Title: Título
+Value: Valor
+Variable Name: Nombre de la variable
+Translations: Traducciones
 
 # General term
 By Default: Por Defecto
@@ -175,3 +182,11 @@ Search placeholder: Buscar por título
 Results for : Resultado para
 Query: Consulta
 Select: Seleccionar
+
+# Contact chat
+chat:
+    contact:
+        hello: Hello %username%
+        presentation: Pregunta lo que sea, ¡estamos aquí para ayudarte!
+        begin:
+            conversation: Comenzando una conversación

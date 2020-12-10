@@ -31,7 +31,7 @@ app:
                 product: Product
                 price: Price
         intro:
-            message: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur voluptatibus at praesentium quae voluptatem! Incidunt adipisci dicta ipsa, commodi deleniti quas!
+            message: We ​​provide a dynamic tool to visualize and connect with all audiovisual creators. Show your talents and find the services you need to make your film.
             services: Latest Services
             articles: Latest Post
     cart:
@@ -97,6 +97,8 @@ admin:
         user: Users
         company: Companies
         general: Manages
+        varible: Variables
+        translations: Translations
 
 
 # entity names, labels and titles
@@ -111,7 +113,9 @@ Companies: List of companies
 CompanyServices: List of Company Services
 CompanyService: Company Service
 Service: Service
-Services: Services
+Services: Audiovisual Link
+System Variable: System Variable
+Systems Variable: List of Systems variable
 
 # Labels
 form.label.delete: Delete?
@@ -148,6 +152,9 @@ Logo: Logo
 Owner: Owner
 Description: Descrition
 Title: Title
+Value: Value
+Variable Name: Variable Name
+Translations: Translations
 
 # General term
 By Default: By Default
@@ -169,3 +176,11 @@ Search placeholder: Search by title
 Results for : Results for
 Query: Query
 Select: Select
+
+# Contact chat
+chat:
+    contact:
+        hello: Hello %username%
+        presentation: Ask whatever it is, we are here for helping to you!
+        begin:
+            conversation: Begining a conversation
