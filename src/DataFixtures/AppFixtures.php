@@ -8,26 +8,24 @@ use App\Component\Discount\Model\Discount;
 use App\Component\Payment\Model\Payment;
 use App\Component\Product\Model\Product;
 use App\Component\Shipment\Model\Shipment;
-use App\Component\Province\Model\Province;
+use App\Entity\Province;
 use App\Entity\Service;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class AppFixtures extends Fixture
-{
-    public function load(ObjectManager $manager)
-    {
+class AppFixtures extends Fixture {
+
+    public function load(ObjectManager $manager) {
         $this->loadProducts($manager);
         $this->loadPayments($manager);
         $this->loadShipments($manager);
         $this->loadDiscounts($manager);
-        
+
         $this->loadProvinces($manager);
         $this->loadServices($manager);
     }
 
-    private function loadProducts(ObjectManager $manager): void
-    {
+    private function loadProducts(ObjectManager $manager): void {
         foreach ($this->getProductsData() as [$name, $image, $price]) {
             $product = new Product();
             $product->setCreatedAt(new \DateTime('NOW'));
@@ -43,8 +41,7 @@ class AppFixtures extends Fixture
     /**
      * @return array
      */
-    private function getProductsData(): array
-    {
+    private function getProductsData(): array {
         return [
             // $productData = [$name, $image, $price];
             [
@@ -65,8 +62,7 @@ class AppFixtures extends Fixture
         ];
     }
 
-    private function loadPayments(ObjectManager $manager): void
-    {
+    private function loadPayments(ObjectManager $manager): void {
         foreach ($this->getPaymentsData() as [$name, $price]) {
             $payment = new Payment();
             $payment->setCreatedAt(new \DateTime('NOW'));
@@ -81,8 +77,7 @@ class AppFixtures extends Fixture
     /**
      * @return array
      */
-    private function getPaymentsData(): array
-    {
+    private function getPaymentsData(): array {
         return [
             // $paymentData = [$name, $price];
             [
@@ -100,8 +95,7 @@ class AppFixtures extends Fixture
         ];
     }
 
-    private function loadShipments(ObjectManager $manager): void
-    {
+    private function loadShipments(ObjectManager $manager): void {
         foreach ($this->getShipmentsData() as [$name, $price]) {
             $shipment = new Shipment();
             $shipment->setCreatedAt(new \DateTime('NOW'));
@@ -116,8 +110,7 @@ class AppFixtures extends Fixture
     /**
      * @return array
      */
-    private function getShipmentsData(): array
-    {
+    private function getShipmentsData(): array {
         return [
             // $shipmentData = [$name, $price];
             [
@@ -135,8 +128,7 @@ class AppFixtures extends Fixture
         ];
     }
 
-    private function loadDiscounts(ObjectManager $manager): void
-    {
+    private function loadDiscounts(ObjectManager $manager): void {
         foreach ($this->getDiscountsData() as [$name, $code, $percent]) {
             $discount = new Discount();
             $discount->setCreatedAt(new \DateTime('NOW'));
@@ -152,8 +144,7 @@ class AppFixtures extends Fixture
     /**
      * @return array
      */
-    private function getDiscountsData(): array
-    {
+    private function getDiscountsData(): array {
         return [
             // $discountData = [$name, $code, $discount];
             [
@@ -168,28 +159,26 @@ class AppFixtures extends Fixture
             ]
         ];
     }
-    
-    private function loadProvinces(ObjectManager $manager): void
-    {
+
+    private function loadProvinces(ObjectManager $manager): void {
         foreach ($this->getProvinceData() as [$name]) {
             $province = new Province();
             $province->setCreatedAt(new \DateTime('NOW'));
             $province->setName($name);
-            
+
             $manager->persist($province);
         }
         $manager->flush();
     }
-    
+
     /**
      * @return array
      */
-    private function getProvinceData(): array
-    {
+    private function getProvinceData(): array {
         return [
             // $provinceData = [$name];
             [
-                'Guantánamo'              
+                'Guantánamo'
             ],
             [
                 'Santiago de Cuba'
@@ -216,7 +205,7 @@ class AppFixtures extends Fixture
                 'Villa Clara'
             ],
             [
-                'Cienfuegos' 
+                'Cienfuegos'
             ],
             [
                 'Matanzas'
@@ -240,56 +229,73 @@ class AppFixtures extends Fixture
     }
 
     private function loadServices($manager) {
-         foreach ($this->getServiceData() as [$name]) {
+        foreach ($this->getServiceData() as [$trans]) {
+
+            /** @var \Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface $service */
             $service = new Service();
+
+            foreach ($trans as $lang => $value) {
+
+                $service->translate($lang)->setName($value);
+            }
             $service->setCreatedAt(new \DateTime('NOW'));
-            $service->setName($name);
-            
+
             $manager->persist($service);
         }
         $manager->flush();
     }
 
     private function getServiceData() {
-       return [
-            // $provinceData = [$name];
+        return [
             [
-                'Producción'              
+                'es' => 'Producción',
+                'en' => 'Prodution'
             ],
             [
-                'Dirección'
+                'es' => 'Dirección',
+                'en' => 'Direction'
             ],
             [
-                'Guión'
+                'es' => 'Guión',
+                'en' => 'Script'
             ],
             [
-                'Edición'
+                'es' => 'Edición',
+                'en' => 'Edition'
             ],
             [
-                'Cámara'
+                'es' => 'Cámara',
+                'en' => 'Camera'
             ],
             [
-                'Luces'
+                'es' => 'Luces',
+                'en' => 'Ligth'
             ],
             [
-                'Audio'
+                'es' => 'Audio',
+                'en' => 'Audio'
             ],
             [
-                'Efectos especiales'
+                'es' => 'Efectos especiales',
+                'en' => 'Spetial effect'
             ],
             [
-                'Animación'
+                'es' => 'Animación',
+                'en' => 'Animation'
             ],
             [
-                'Preparador de documentos' 
+                'es' => 'Preparador de documentos',
+                'en' => 'Document preparer'
             ],
             [
-                'Drone'
+                'es' => 'Drone',
+                'en' => 'Drone'
             ],
             [
-                'Apoyo a la producción de campo'
+                'es' => 'Apoyo a la producción de campo',
+                'en' => 'Field production support'
             ]
-        ]; 
+        ];
     }
 
 }
