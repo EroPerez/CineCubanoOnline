@@ -1,0 +1,76 @@
+{% extends layout %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style>  
+        @media (min-width: 1024px){
+            .form-group label, .form-group legend.col-form-label {
+                text-align: left !important;
+            }
+        }
+
+    </style>
+{% endblock %}  
+
+{% block lexik_title %}{{ 'translations.add_translation'|trans({}, 'LexikTranslationBundle') }}{% endblock %}
+{% block lexik_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>                    
+                    &nbsp;
+                    <div class="float-right">
+                        <a href="{{ path('lexik_translation_grid', {menuIndex: app.request.get('menuIndex'), submenuIndex: app.request.get('submenuIndex'), eaContext: app.request.get('eaContext')}) }}" class="btn btn-success">
+                            <span class="fa fa-arrow-left"></span>
+                            {{ 'translations.back_to_list'|trans({}, 'LexikTranslationBundle') }}
+                        </a>
+                    </div>
+
+                </h3>
+                <hr />
+            </div>
+
+            <div class="col-md-10">
+
+                {{ form_start(form, {'action': path('lexik_translation_new', {menuIndex: app.request.get('menuIndex'), submenuIndex: app.request.get('submenuIndex'), eaContext: app.request.get('eaContext')}), 'method': 'POST', 'attr': {'class': 'ea-new-form'}}) }}
+
+                <div class="form-group">
+                    {{ form_label(form.key) }}
+                    {{ form_widget(form.key, { 'attr': {'class': 'form-control'} }) }}
+                    <span class="text-danger">{{ form_errors(form.key) }}</span>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.domain) }}
+                    {{ form_widget(form.domain, { 'attr': {'class': 'form-control'} }) }}
+                    <span class="text-danger">{{ form_errors(form.domain) }}</span>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.translations) }}
+                </div>
+
+                <div class="form-group">
+                    {% for translation in form.translations %}
+                        {{ form_label(translation) }}
+                        {{ form_widget(translation.content, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger">{{ form_errors(translation.content) }}</span>
+                        {{ form_widget(translation.locale) }}
+                    {% endfor %}
+                </div>
+
+                <div>
+                    &nbsp;
+                    <div class="page-actions float-right">
+
+                        {{ form_widget(form.save_add, { 'attr': {'id': 'trans-unit-submit-2', 'name': 'trans-unit-submit-2', 'class': 'action-saveAndAddAnother btn btn-secondary action-save'} }) }}
+                        {{ form_widget(form.save, { 'attr': {'id': 'trans-unit-submit', 'name': 'trans-unit-submit', 'class': 'action-saveAndReturn btn btn-primary action-save'} }) }}
+                    </div>
+                </div>
+
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

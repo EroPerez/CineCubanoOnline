@@ -1,0 +1,42 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}  
+{% block page_title %}  
+    {% block lexik_title %}{% endblock %}
+{% endblock %}
+{% block head_stylesheets %}
+    {{ parent() }}
+
+    {% block lexik_stylesheets %}
+{#        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">#}
+        <link rel="stylesheet" href="{{ asset('bundles/lexiktranslation/ng-table/ng-table.min.css') }}">
+    {% endblock %}
+{% endblock %} 
+{% block page_content %}
+    {% block lexik_flash_message %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {% set flashes = app.session.flashbag.all() %}
+                    {% if flashes | length > 0 %}
+                        {% for type, messages in flashes %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ type }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endblock lexik_flash_message %}
+
+    {% block lexik_content %} {% endblock %}
+
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    {% block lexik_javascript_footer %}
+{#        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>#}
+        <script src="{{ asset('bundles/lexiktranslation/js/angular.min.js') }}"></script>
+        <script src="{{ asset('bundles/lexiktranslation/ng-table/ng-table.min.js') }}"></script>
+    {% endblock %}
+{% endblock body_javascript %} 
